@@ -1,0 +1,20 @@
+{
+  "name": "mymusic-lounge-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MyMusic Lounge - Premium personalized music listening platform with owner-controlled station and personal mode",
+  "scripts": {
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "build:client": "npm --prefix client run build",
+    "build": "npm run build:client",
+    "start": "npm --prefix server start",
+    "test": "npm --prefix server test",
+    "db:migrate": "npm --prefix server run db:migrate",
+    "db:seed": "npm --prefix server run db:seed"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

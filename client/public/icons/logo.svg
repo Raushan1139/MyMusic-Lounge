@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="loungeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="50%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="15" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="#0B0D13" />
+  <circle cx="256" cy="256" r="180" stroke="url(#loungeGrad)" stroke-width="8" opacity="0.4" />
+  <circle cx="256" cy="256" r="130" stroke="url(#loungeGrad)" stroke-width="4" stroke-dasharray="12 12" opacity="0.6" />
+  <g filter="url(#glow)">
+    <path d="M220 160 C220 150 230 142 240 145 L330 170 C340 173 346 182 346 192 L346 290 C346 270 326 256 302 256 C275 256 254 274 254 296 C254 318 275 336 302 336 C326 336 346 320 346 296 L346 210 L246 184 L246 320 C246 300 226 286 202 286 C175 286 154 304 154 326 C154 348 175 366 202 366 C226 366 246 350 246 326 L246 160 Z" fill="url(#loungeGrad)" />
+  </g>
+</svg>
