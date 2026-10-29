@@ -5,7 +5,7 @@ let isConnected = false;
 let isMemoryFallback = false;
 
 async function connectDB() {
-  if (isConnected) return;
+  if (isConnected || isMemoryFallback) return;
 
   const uri = config.mongodbUri;
   const maskedUri = uri.replace(/\/\/[^@]+@/, '//***:***@');
