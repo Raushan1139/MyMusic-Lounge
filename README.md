@@ -1,8 +1,8 @@
-# MyMusic Lounge 🎵
+# MyMusic Lounge 🎵 (MongoDB Edition)
 
 > *Your Music. Your Mood. Your Space.*
 
-A modern, immersive, full-stack music listening platform inspired by the atmosphere and aesthetic of DeluxSalon.in, featuring a dual listening model: an **Owner-Controlled Live Radio Station** synchronized across all visitors, plus a **Personal Music Mode** for custom streaming and curation.
+A modern, immersive, full-stack music listening platform inspired by the atmosphere and aesthetic of DeluxSalon.in, featuring a dual listening model: an **Owner-Controlled Live Radio Station** synchronized across all visitors, plus a **Personal Music Mode** for custom streaming and curation, powered by **MongoDB**.
 
 ---
 
@@ -34,7 +34,7 @@ A modern, immersive, full-stack music listening platform inspired by the atmosph
 | :--- | :--- |
 | **Frontend** | React 18, Vite, React Router 6, Framer Motion, Lucide Icons, Pure Responsive CSS Variables (No Tailwind CSS) |
 | **Backend** | Node.js, Express.js, REST API, Socket.IO WebSockets |
-| **Database** | PostgreSQL / SQLite (Zero-config local development), Prisma ORM |
+| **Database** | MongoDB (Mongoose ODM / MongoDB Atlas / Local MongoDB) |
 | **Cache & Presence**| In-memory deduplicator with optional Redis fallback |
 | **Audio Source** | Official YouTube IFrame Player API |
 
@@ -53,11 +53,10 @@ cd ../client
 npm install
 ```
 
-### 2. Configure Database & Seed
+### 2. Configure MongoDB Database & Seed
 ```bash
 cd ../server
-npx prisma db push
-node prisma/seed.js
+npm run db:seed
 ```
 
 ### 3. Run Automated Tests

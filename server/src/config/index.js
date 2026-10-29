@@ -6,7 +6,10 @@ module.exports = {
   clientUrl: process.env.CLIENT_URL || 'http://localhost:5173',
   jwtSecret: process.env.JWT_SECRET || 'mymusic_lounge_super_secret_jwt_key_change_in_production_98765',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
-  databaseUrl: process.env.DATABASE_URL || 'file:./dev.db',
+  mongodbUri:
+    process.env.MONGODB_URI ||
+    process.env.DATABASE_URL ||
+    'mongodb://127.0.0.1:27017/mymusic_lounge',
   redisUrl: process.env.REDIS_URL || null,
   youtubeApiKey: process.env.YOUTUBE_API_KEY || null,
   admin: {

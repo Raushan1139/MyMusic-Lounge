@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config');
-const prisma = require('../config/db');
+const { User } = require('../models');
 
 /**
  * Protect middleware: requires valid authentication
@@ -23,17 +23,7 @@ const protect = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, config.jwtSecret);
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        role: true,
-        avatarUrl: true,
-        createdAt: true,
-      },
-    });
+    const user = await User.findById(decoded.userId);
 
     if (!user) {
       return res.status(401).json({
@@ -73,16 +63,7 @@ const optionalAuth = async (req, res, next) => {
 
     if (token) {
       const decoded = jwt.verify(token, config.jwtSecret);
-      const user = await prisma.user.findUnique({
-        where: { id: decoded.userId },
-        select: {
-          id: true,
-          username: true,
-          email: true,
-          role: true,
-          avatarUrl: true,
-        },
-      });
+      const user = await User.findById(decoded.userId);
       if (user) {
         req.user = user;
       }

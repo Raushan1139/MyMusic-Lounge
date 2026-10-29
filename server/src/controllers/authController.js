@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
-const prisma = require('../config/db');
+const { User, Playlist, Favorite } = require('../models');
 const { validateRegister, validateLogin } = require('../validators');
 
 // Helper to generate JWT token
@@ -29,42 +29,30 @@ exports.register = async (req, res, next) => {
     }
 
     const { username, email, password } = req.body;
+    const cleanEmail = email.toLowerCase().trim();
+    const cleanUsername = username.trim();
 
-    const existingUser = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { email: email.toLowerCase().trim() },
-          { username: username.trim() },
-        ],
-      },
+    const existingUser = await User.findOne({
+      $or: [{ email: cleanEmail }, { username: cleanUsername }],
     });
 
     if (existingUser) {
       return res.status(409).json({
         success: false,
-        message: existingUser.email === email.toLowerCase().trim()
-          ? 'Email address is already in use.'
-          : 'Username is already taken.',
+        message:
+          existingUser.email === cleanEmail
+            ? 'Email address is already in use.'
+            : 'Username is already taken.',
       });
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-    const user = await prisma.user.create({
-      data: {
-        username: username.trim(),
-        email: email.toLowerCase().trim(),
-        passwordHash,
-        role: 'USER',
-        avatarUrl: `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(username.trim())}`,
-      },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        role: true,
-        avatarUrl: true,
-        createdAt: true,
-      },
+    const user = await User.create({
+      username: cleanUsername,
+      email: cleanEmail,
+      passwordHash,
+      role: 'USER',
+      avatarUrl: `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(cleanUsername)}`,
     });
 
     const token = generateToken(user.id, user.role);
@@ -74,7 +62,14 @@ exports.register = async (req, res, next) => {
       success: true,
       message: 'Account created successfully. Welcome to MyMusic Lounge!',
       token,
-      user,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        avatarUrl: user.avatarUrl,
+        createdAt: user.createdAt,
+      },
     });
   } catch (error) {
     next(error);
@@ -91,13 +86,8 @@ exports.login = async (req, res, next) => {
     const { identifier, password } = req.body;
     const cleanId = identifier.trim().toLowerCase();
 
-    const user = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { email: cleanId },
-          { username: identifier.trim() },
-        ],
-      },
+    const user = await User.findOne({
+      $or: [{ email: cleanId }, { username: identifier.trim() }],
     });
 
     if (!user) {
@@ -147,29 +137,31 @@ exports.logout = (req, res) => {
 
 exports.getMe = async (req, res, next) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: { id: req.user.id },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        role: true,
-        avatarUrl: true,
-        createdAt: true,
-        _count: {
-          select: {
-            playlists: true,
-            favorites: true,
-          },
-        },
-      },
-    });
-
+    const user = await User.findById(req.user.id);
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found.' });
     }
 
-    return res.json({ success: true, user });
+    const [playlistsCount, favoritesCount] = await Promise.all([
+      Playlist.countDocuments({ owner: user.id }),
+      Favorite.countDocuments({ user: user.id }),
+    ]);
+
+    return res.json({
+      success: true,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        avatarUrl: user.avatarUrl,
+        createdAt: user.createdAt,
+        _count: {
+          playlists: playlistsCount,
+          favorites: favoritesCount,
+        },
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -181,7 +173,7 @@ exports.updateProfile = async (req, res, next) => {
     const updateData = {};
 
     if (username && username.trim() !== req.user.username) {
-      const existing = await prisma.user.findUnique({ where: { username: username.trim() } });
+      const existing = await User.findOne({ username: username.trim() });
       if (existing) {
         return res.status(409).json({ success: false, message: 'Username is already taken.' });
       }
@@ -192,19 +184,19 @@ exports.updateProfile = async (req, res, next) => {
       updateData.avatarUrl = avatarUrl.trim();
     }
 
-    const updated = await prisma.user.update({
-      where: { id: req.user.id },
-      data: updateData,
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        role: true,
-        avatarUrl: true,
-      },
-    });
+    const updated = await User.findByIdAndUpdate(req.user.id, updateData, { new: true });
 
-    return res.json({ success: true, user: updated, message: 'Profile updated.' });
+    return res.json({
+      success: true,
+      user: {
+        id: updated.id,
+        username: updated.username,
+        email: updated.email,
+        role: updated.role,
+        avatarUrl: updated.avatarUrl,
+      },
+      message: 'Profile updated.',
+    });
   } catch (error) {
     next(error);
   }

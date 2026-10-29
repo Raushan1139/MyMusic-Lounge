@@ -1,25 +1,24 @@
-# MyMusic Lounge - Production Deployment Guide
+# MyMusic Lounge - Production Deployment Guide (MongoDB)
 
 ## 1. Architecture Overview for Production
 - **Frontend Client**: Deployable to Vercel, Netlify, Cloudflare Pages, or AWS S3 + CloudFront.
 - **Backend API & WebSockets**: Node.js service deployable to Render, Railway, Fly.io, or AWS ECS/DigitalOcean.
-- **Database**: Managed PostgreSQL database (Supabase, Neon, Render PostgreSQL, AWS RDS).
+- **Database**: Managed MongoDB (MongoDB Atlas, Render MongoDB, or AWS DocumentDB).
 - **Optional Cache**: Managed Redis instance (Upstash, Redis Cloud) for distributed rate limiting and presence.
 
 ---
 
-## 2. PostgreSQL Configuration
+## 2. MongoDB Atlas Configuration
 
-1. Set your `DATABASE_URL` in the production environment:
+1. Create a free or dedicated cluster on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+2. Create a database user and whitelist your server's IP address (or `0.0.0.0/0` with secure credentials).
+3. Copy your connection string into `MONGODB_URI`:
    ```env
-   DATABASE_URL="postgresql://user:password@host:5432/mymusic_lounge?schema=public"
+   MONGODB_URI="mongodb+srv://username:password@cluster.mongodb.net/mymusic_lounge?retryWrites=true&w=majority"
    ```
-
-2. Point Prisma to the PostgreSQL schema or update `prisma/schema.prisma`:
+4. Run the seed script:
    ```bash
-   cp prisma/schema.postgresql.prisma prisma/schema.prisma
-   npx prisma migrate deploy
-   node prisma/seed.js
+   npm run db:seed
    ```
 
 ---
@@ -33,7 +32,7 @@
 | `CLIENT_URL` | Frontend URL for CORS | Yes | `https://lounge.yourdomain.com` |
 | `JWT_SECRET` | Secret key for JWT auth | Yes | `32+ random characters` |
 | `JWT_EXPIRES_IN` | Token lifetime | No | `7d` |
-| `DATABASE_URL` | PostgreSQL connection URL | Yes | `postgresql://...` |
+| `MONGODB_URI` | MongoDB connection URI | Yes | `mongodb+srv://...` |
 | `REDIS_URL` | Redis caching & presence | Optional | `rediss://...` |
 | `ADMIN_EMAIL` | Initial Admin Email | Optional | `admin@yourdomain.com` |
 | `ADMIN_PASSWORD` | Initial Admin Password | Optional | `StrongPassword123!` |

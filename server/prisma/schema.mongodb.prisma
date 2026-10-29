@@ -1,0 +1,122 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String             @id @default(auto()) @map("_id") @db.ObjectId
+  username     String             @unique
+  email        String             @unique
+  passwordHash String
+  role         String             @default("USER")
+  avatarUrl    String?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  playlists    Playlist[]
+  favorites    Favorite[]
+  history      ListeningHistory[]
+  messages     ChatMessage[]
+
+  @@index([role])
+}
+
+model Track {
+  id              String             @id @default(auto()) @map("_id") @db.ObjectId
+  title           String
+  artist          String
+  album           String?
+  thumbnailUrl    String?
+  provider        String             @default("youtube")
+  providerVideoId String
+  durationSeconds Int                @default(0)
+  isPublished     Boolean            @default(true)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  favorites       Favorite[]
+  history         ListeningHistory[]
+
+  @@unique([provider, providerVideoId])
+  @@index([title])
+  @@index([artist])
+  @@index([isPublished])
+}
+
+model Playlist {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  coverUrl    String?
+  ownerId     String   @db.ObjectId
+  isPublic    Boolean  @default(true)
+  isPublished Boolean  @default(true)
+  tracks      Json     @default("[]") // Array of { trackId, position, addedAt }
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId])
+  @@index([isPublic, isPublished])
+}
+
+model Favorite {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  trackId   String   @db.ObjectId
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  track     Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, trackId])
+  @@index([userId])
+}
+
+model ListeningHistory {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String   @db.ObjectId
+  trackId  String   @db.ObjectId
+  playedAt DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  track    Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  @@index([userId, playedAt])
+}
+
+model Station {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  name              String   @default("Lounge Radio")
+  description       String?  @default("Curated vibes handpicked by the lounge owner")
+  currentTrackId    String?  @db.ObjectId
+  defaultPlaylistId String?  @db.ObjectId
+  playbackState     String   @default("STOPPED")
+  positionSeconds   Float    @default(0)
+  queue             Json     @default("[]")
+  updatedAt         DateTime @updatedAt
+}
+
+model ChatMessage {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String    @db.ObjectId
+  message   String
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+}
+
+model AppSetting {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}

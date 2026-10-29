@@ -1,22 +1,27 @@
-const prisma = require('../config/db');
+const { ListeningHistory, Track } = require('../models');
 
 exports.getHistory = async (req, res, next) => {
   try {
-    const history = await prisma.listeningHistory.findMany({
-      where: { userId: req.user.id },
-      include: { track: true },
-      orderBy: { playedAt: 'desc' },
-      take: 50,
-    });
+    const rawHistory = await ListeningHistory.find({ user: req.user.id })
+      .sort({ playedAt: -1 })
+      .limit(50);
 
-    return res.json({
-      success: true,
-      history: history.map((h) => ({
-        id: h.id,
-        playedAt: h.playedAt,
-        track: h.track,
-      })),
-    });
+    const history = [];
+    for (const h of rawHistory) {
+      let trackObj = h.track;
+      if (!trackObj?.title) {
+        trackObj = await Track.findById(h.track);
+      }
+      if (trackObj) {
+        history.push({
+          id: h.id,
+          playedAt: h.playedAt,
+          track: trackObj.toObject ? trackObj.toObject() : trackObj,
+        });
+      }
+    }
+
+    return res.json({ success: true, history });
   } catch (error) {
     next(error);
   }
@@ -29,15 +34,22 @@ exports.recordHistory = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'trackId is required.' });
     }
 
-    const entry = await prisma.listeningHistory.create({
-      data: {
-        userId: req.user.id,
-        trackId,
-      },
-      include: { track: true },
+    const entry = await ListeningHistory.create({
+      user: req.user.id,
+      track: trackId,
+      playedAt: new Date(),
     });
 
-    return res.status(201).json({ success: true, entry });
+    const track = await Track.findById(trackId);
+
+    return res.status(201).json({
+      success: true,
+      entry: {
+        id: entry.id,
+        playedAt: entry.playedAt,
+        track,
+      },
+    });
   } catch (error) {
     next(error);
   }

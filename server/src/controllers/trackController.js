@@ -1,6 +1,6 @@
-const prisma = require('../config/db');
+const { Track } = require('../models');
 const { validateTrack } = require('../validators');
-const { normalizeYouTubeTrack, extractYouTubeVideoId } = require('../utils/youtube');
+const { normalizeYouTubeTrack } = require('../utils/youtube');
 
 /**
  * Get all published catalog tracks (with search, pagination, and sorting)
@@ -11,30 +11,25 @@ exports.getTracks = async (req, res, next) => {
     const skip = (parseInt(page, 10) - 1) * parseInt(limit, 10);
     const take = parseInt(limit, 10);
 
-    const where = {};
+    const query = {};
 
     // Non-admins can only view published tracks
     if (!all || !req.user || req.user.role !== 'ADMIN') {
-      where.isPublished = true;
+      query.isPublished = true;
     }
 
     if (search && search.trim()) {
       const q = search.trim();
-      where.OR = [
-        { title: { contains: q } },
-        { artist: { contains: q } },
-        { album: { contains: q } },
+      query.$or = [
+        { title: { $regex: q, $options: 'i' } },
+        { artist: { $regex: q, $options: 'i' } },
+        { album: { $regex: q, $options: 'i' } },
       ];
     }
 
     const [tracks, total] = await Promise.all([
-      prisma.track.findMany({
-        where,
-        skip,
-        take,
-        orderBy: { createdAt: 'desc' },
-      }),
-      prisma.track.count({ where }),
+      Track.find(query).sort({ createdAt: -1 }).skip(skip).limit(take),
+      Track.countDocuments(query),
     ]);
 
     return res.json({
@@ -58,9 +53,7 @@ exports.getTracks = async (req, res, next) => {
 exports.getTrackById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const track = await prisma.track.findUnique({
-      where: { id },
-    });
+    const track = await Track.findById(id);
 
     if (!track) {
       return res.status(404).json({ success: false, message: 'Track not found.' });
@@ -83,18 +76,15 @@ exports.validateVideoUrl = async (req, res) => {
   if (!normalized) {
     return res.status(400).json({
       success: false,
-      message: 'Invalid YouTube URL or Video ID. Please provide a standard YouTube video link (e.g. https://www.youtube.com/watch?v=...) or 11-character video ID.',
+      message:
+        'Invalid YouTube URL or Video ID. Please provide a standard YouTube video link (e.g. https://www.youtube.com/watch?v=...) or 11-character video ID.',
     });
   }
 
   // Check if already in catalog
-  const existing = await prisma.track.findUnique({
-    where: {
-      provider_providerVideoId: {
-        provider: 'youtube',
-        providerVideoId: normalized.providerVideoId,
-      },
-    },
+  const existing = await Track.findOne({
+    provider: 'youtube',
+    providerVideoId: normalized.providerVideoId,
   });
 
   return res.json({
@@ -128,13 +118,9 @@ exports.createTrack = async (req, res, next) => {
     const normalized = normalizeYouTubeTrack(resolvedVideoId);
 
     // Check duplicate
-    const existing = await prisma.track.findUnique({
-      where: {
-        provider_providerVideoId: {
-          provider,
-          providerVideoId: resolvedVideoId,
-        },
-      },
+    const existing = await Track.findOne({
+      provider,
+      providerVideoId: resolvedVideoId,
     });
 
     if (existing) {
@@ -145,17 +131,15 @@ exports.createTrack = async (req, res, next) => {
       });
     }
 
-    const track = await prisma.track.create({
-      data: {
-        title: title.trim(),
-        artist: artist.trim(),
-        album: album ? album.trim() : null,
-        thumbnailUrl: thumbnailUrl || normalized.thumbnailUrl,
-        provider,
-        providerVideoId: resolvedVideoId,
-        durationSeconds: parseInt(durationSeconds, 10) || 180,
-        isPublished: Boolean(isPublished),
-      },
+    const track = await Track.create({
+      title: title.trim(),
+      artist: artist.trim(),
+      album: album ? album.trim() : null,
+      thumbnailUrl: thumbnailUrl || normalized.thumbnailUrl,
+      provider,
+      providerVideoId: resolvedVideoId,
+      durationSeconds: parseInt(durationSeconds, 10) || 180,
+      isPublished: Boolean(isPublished),
     });
 
     return res.status(201).json({
@@ -184,10 +168,7 @@ exports.updateTrack = async (req, res, next) => {
     if (durationSeconds !== undefined) updateData.durationSeconds = parseInt(durationSeconds, 10);
     if (isPublished !== undefined) updateData.isPublished = Boolean(isPublished);
 
-    const updated = await prisma.track.update({
-      where: { id },
-      data: updateData,
-    });
+    const updated = await Track.findByIdAndUpdate(id, updateData, { new: true });
 
     return res.json({
       success: true,
@@ -205,7 +186,7 @@ exports.updateTrack = async (req, res, next) => {
 exports.deleteTrack = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await prisma.track.delete({ where: { id } });
+    await Track.findByIdAndDelete(id);
     return res.json({ success: true, message: 'Track deleted from catalog.' });
   } catch (error) {
     next(error);

@@ -1,6 +1,6 @@
 const stationService = require('../services/stationService');
 const presenceService = require('../services/presenceService');
-const prisma = require('../config/db');
+const { User, Track, Playlist } = require('../models');
 
 /**
  * Public: Get current station status
@@ -151,18 +151,11 @@ exports.updateStation = async (req, res, next) => {
 exports.getAdminStats = async (req, res, next) => {
   try {
     const [totalUsers, totalTracks, totalPlaylists, recentUsers, recentTracks] = await Promise.all([
-      prisma.user.count(),
-      prisma.track.count(),
-      prisma.playlist.count(),
-      prisma.user.findMany({
-        take: 5,
-        orderBy: { createdAt: 'desc' },
-        select: { id: true, username: true, email: true, role: true, createdAt: true },
-      }),
-      prisma.track.findMany({
-        take: 5,
-        orderBy: { createdAt: 'desc' },
-      }),
+      User.countDocuments(),
+      Track.countDocuments(),
+      Playlist.countDocuments(),
+      User.find().sort({ createdAt: -1 }).limit(5),
+      Track.find().sort({ createdAt: -1 }).limit(5),
     ]);
 
     const activeListeners = presenceService.getCount();
@@ -177,7 +170,13 @@ exports.getAdminStats = async (req, res, next) => {
         activeListeners,
         stationState: stationState.playbackState,
         currentTrack: stationState.currentTrack,
-        recentUsers,
+        recentUsers: recentUsers.map((u) => ({
+          id: u.id,
+          username: u.username,
+          email: u.email,
+          role: u.role,
+          createdAt: u.createdAt,
+        })),
         recentTracks,
       },
     });

@@ -1,10 +1,16 @@
-const { describe, it } = require('node:test');
+const { describe, it, before } = require('node:test');
 const assert = require('node:assert');
 const request = require('supertest');
 const app = require('../src/app');
+const seed = require('../src/seed');
 const { extractYouTubeVideoId, normalizeYouTubeTrack } = require('../src/utils/youtube');
 
-describe('MyMusic Lounge Server Tests', () => {
+describe('MyMusic Lounge MongoDB Server Tests', () => {
+  before(async () => {
+    // Seed initial MongoDB collections
+    await seed();
+  });
+
   it('GET /api/health should return status healthy', async () => {
     const res = await request(app).get('/api/health');
     assert.strictEqual(res.status, 200);

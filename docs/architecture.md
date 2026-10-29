@@ -1,7 +1,7 @@
-# MyMusic Lounge - System Architecture
+# MyMusic Lounge - System Architecture (MongoDB Edition)
 
 ## Overview
-**MyMusic Lounge** is a full-stack, production-ready music listening platform designed to emulate the sleek, ambient luxury atmosphere of DeluxSalon.in with a dual listening paradigm:
+**MyMusic Lounge** is a full-stack, production-ready music listening platform inspired by the luxury atmosphere of DeluxSalon.in, featuring a dual-listening paradigm backed by a **MongoDB database**:
 1. **Mode A: Owner-Controlled Station Radio**: The platform owner/admin has full control over the live broadcast, current track selection, and global queue. All connected visitors receive real-time synchronized playback and track changes via WebSockets.
 2. **Mode B: Personal Music Mode**: Visitors can explore the catalog, paste direct YouTube video URLs or video IDs, build personal playlists, reorder songs, mark favorites, and review their listening history without ever interfering with the global station broadcast.
 
@@ -35,35 +35,45 @@
              v                                                     v
 +-----------------------------+                           +-----------------------+
 |        DATABASE TIER        |                           |     OPTIONAL CACHE    |
-| Prisma ORM                  |                           | Redis / In-Memory     |
-| (PostgreSQL / SQLite Dev)   |                           | Deduplicated Presence |
+| MongoDB Database            |                           | Redis / In-Memory     |
+| (Mongoose ODM / Atlas /     |                           | Deduplicated Presence |
+| Local MongoDB instance)     |                           | Rate-limiting         |
 +-----------------------------+                           +-----------------------+
 ```
 
 ---
 
-## Core Components
+## MongoDB Collections & Schema Design
 
-### 1. YouTube Player Integration & ToS Compliance
-- Adheres strictly to YouTube Terms of Service by embedding the genuine YouTube IFrame Player API.
-- Audio is never ripped, extracted, or stored on the server.
-- Supports comprehensive URL formats (`/watch?v=`, `youtu.be/`, `/shorts/`, `/embed/`, and direct 11-char video IDs).
-- Detects browser autoplay policy blocking and surfaces an ambient "Join Lounge Audio" button to guarantee user interaction unlocks audio seamlessly.
-- Surfaces distinct error states for restricted or region-locked embeddings (error codes 100, 101, 150).
+The MongoDB database is organized into the following document collections:
 
-### 2. Station Synchronization & Source of Truth
-- The server's `StationService` acts as the single source of truth for the station's track, queue, playback state, and timestamp.
-- On connection, late-joining clients receive the current track and calculated elapsed time to seek in synchrony.
-- Admin commands (`play`, `pause`, `seek`, `next`, `set-track`, `add-queue`, `remove-queue`, `reorder-queue`) broadcast through Socket.IO room `lounge`.
+1. **`users`**:
+   - `username`, `email`, `passwordHash`, `role` (`USER`, `ADMIN`, `MODERATOR`), `avatarUrl`, `createdAt`, `updatedAt`
+   - Unique indexes on `username` and `email`.
 
-### 3. Presence Tracking & Listener Count Deduplication
-- `PresenceService` tracks active sockets and dedupes multiple tabs from the same user or guest session.
-- Stale sockets are cleaned up on disconnect, and updated listener counts are broadcast to all clients.
-- Prevents fabricated listener metrics.
+2. **`tracks`**:
+   - `title`, `artist`, `album`, `thumbnailUrl`, `provider` (`youtube`), `providerVideoId`, `durationSeconds`, `isPublished`
+   - Compound unique index on `{ provider: 1, providerVideoId: 1 }`.
 
-### 4. Security & Role-Based Access Control (RBAC)
-- Password hashing with Bcrypt.
-- Authenticated JWT bearer tokens and HTTP-only cookies.
-- Express middleware `protect`, `requireAdmin`, and `requireModeratorOrAdmin`.
-- Sockets authenticate using tokens during handshake.
-- Non-admin attempts to manipulate station controls return 403 Forbidden.
+3. **`playlists`**:
+   - `name`, `description`, `coverUrl`, `owner` (ObjectId ref `users`), `isPublic`, `isPublished`, `tracks` (Array of subdocuments `{ track: ObjectId, position: Number, addedAt: Date }`)
+   - Index on `owner` and `{ isPublic: 1, isPublished: 1 }`.
+
+4. **`favorites`**:
+   - `user` (ObjectId ref `users`), `track` (ObjectId ref `tracks`), `createdAt`
+   - Compound unique index on `{ user: 1, track: 1 }`.
+
+5. **`listeninghistories`**:
+   - `user` (ObjectId ref `users`), `track` (ObjectId ref `tracks`), `playedAt`
+   - Index on `{ user: 1, playedAt: -1 }`.
+
+6. **`stations`**:
+   - `name`, `description`, `currentTrack` (ObjectId ref `tracks`), `defaultPlaylist` (ObjectId ref `playlists`), `playbackState` (`PLAYING`, `PAUSED`, `STOPPED`), `positionSeconds`, `queue` (Array of subdocuments `{ track: ObjectId, position: Number, addedAt: Date }`).
+
+7. **`chatmessages`**:
+   - `user` (ObjectId ref `users`), `message`, `createdAt`, `deletedAt`
+   - Index on `createdAt`.
+
+8. **`appsettings`**:
+   - `key`, `value`, `updatedAt`
+   - Unique index on `key`.

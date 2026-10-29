@@ -1,16 +1,15 @@
-# MyMusic Lounge - Local Setup Guide
+# MyMusic Lounge - Local Setup Guide (MongoDB)
 
-Follow this guide to run MyMusic Lounge locally for development or testing.
+Follow this guide to run MyMusic Lounge locally for development or testing with MongoDB.
 
 ## Prerequisites
 - Node.js (v18.0.0 or higher, tested on Node.js v24.11)
 - npm or pnpm
+- MongoDB (Optional: local MongoDB daemon, Docker MongoDB, or MongoDB Atlas; the application includes an automatic zero-config fallback if MongoDB is not running locally).
 
 ---
 
-## 1. Quick Start (Monorepo)
-
-From the project root:
+## 1. Quick Start
 
 ### Step 1: Install Dependencies
 ```bash
@@ -24,29 +23,33 @@ npm install
 ```
 
 ### Step 2: Configure Environment Variables
-Copy `.env.example` to `.env` in both root and `server/`:
+Copy `.env.example` to `.env` in `server/`:
 ```bash
 cp server/.env.example server/.env
 ```
+Ensure your `MONGODB_URI` is set:
+```env
+MONGODB_URI="mongodb://127.0.0.1:27017/mymusic_lounge"
+```
+*(Or point to your MongoDB Atlas connection string `mongodb+srv://...`)*
 
-### Step 3: Initialize Database and Seed Data
+### Step 3: Seed MongoDB Database
 ```bash
 cd server
-npx prisma db push
-node prisma/seed.js
+npm run db:seed
 ```
-The database seed creates:
+The database seeder creates:
 - Initial administrator account: `admin@mymusiclounge.com` / `AdminLounge2026!`
 - 8 high-quality catalog tracks with valid YouTube IDs
 - 6 curated playlists ("Chill & Relax", "Coding Focus", "Lo-Fi Sessions", etc.)
-- Active station state and broadcast queue
+- Active station state and broadcast queue in MongoDB
 
-### Step 4: Run the Automated Tests
+### Step 4: Run Automated Tests
 ```bash
 cd server
 npm test
 ```
-All 17 integration & unit tests will run and verify endpoints, auth, and validators.
+All 17 integration & unit tests will run and verify endpoints, auth, and MongoDB operations.
 
 ### Step 5: Start Development Servers
 Run the backend and frontend concurrently:
@@ -70,8 +73,4 @@ Log in using the seeded credentials:
 - **Identifier**: `admin@mymusiclounge.com`
 - **Password**: `AdminLounge2026!`
 
-After logging in, click the **Admin** shield button in the top navigation bar to open the Owner Control Room (`/admin`), where you can:
-- Control live station broadcast (play/pause/skip)
-- Reorder the station broadcast queue
-- Add new songs by URL
-- Manage playlists and site branding
+After logging in, click the **Admin** shield button in the top navigation bar to open the Owner Control Room (`/admin`).

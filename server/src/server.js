@@ -2,7 +2,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 const app = require('./app');
 const config = require('./config');
-const prisma = require('./config/db');
+const { connectDB, mongoose } = require('./config/db');
 const stationService = require('./services/stationService');
 const initSockets = require('./sockets');
 
@@ -27,12 +27,16 @@ initSockets(io);
 
 async function startServer() {
   try {
-    // Initialize station state from database
+    // 1. Connect to MongoDB database (with graceful zero-config memory fallback)
+    await connectDB();
+
+    // 2. Initialize station state
     await stationService.init();
 
     server.listen(config.port, () => {
       console.log(`===============================================`);
       console.log(`  🎵 MyMusic Lounge Server Running!`);
+      console.log(`  🗄️  Database    : MongoDB`);
       console.log(`  📻 Environment : ${config.nodeEnv}`);
       console.log(`  🌐 Port        : ${config.port}`);
       console.log(`  🔗 Client URL  : ${config.clientUrl}`);
@@ -48,7 +52,9 @@ async function startServer() {
 // Graceful shutdown
 process.on('SIGINT', async () => {
   console.log('\nShutting down server gracefully...');
-  await prisma.$disconnect();
+  if (mongoose.connection && mongoose.connection.readyState === 1) {
+    await mongoose.disconnect();
+  }
   server.close(() => {
     console.log('Server closed.');
     process.exit(0);
@@ -57,7 +63,9 @@ process.on('SIGINT', async () => {
 
 process.on('SIGTERM', async () => {
   console.log('\nSIGTERM received, shutting down...');
-  await prisma.$disconnect();
+  if (mongoose.connection && mongoose.connection.readyState === 1) {
+    await mongoose.disconnect();
+  }
   server.close(() => {
     process.exit(0);
   });

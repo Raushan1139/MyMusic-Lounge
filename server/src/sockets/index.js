@@ -1,11 +1,10 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config');
-const prisma = require('../config/db');
+const { User, ChatMessage } = require('../models');
 const presenceService = require('../services/presenceService');
 const stationService = require('../services/stationService');
 const { validateChatMessage } = require('../validators');
 
-// Simple in-memory socket message rate limiting per socket
 const socketMessageCooldowns = new Map();
 
 function initSockets(io) {
@@ -18,12 +17,14 @@ function initSockets(io) {
       if (token) {
         try {
           const decoded = jwt.verify(token, config.jwtSecret);
-          const user = await prisma.user.findUnique({
-            where: { id: decoded.userId },
-            select: { id: true, username: true, role: true, avatarUrl: true },
-          });
+          const user = await User.findById(decoded.userId);
           if (user) {
-            socket.user = user;
+            socket.user = {
+              id: user.id,
+              username: user.username,
+              role: user.role,
+              avatarUrl: user.avatarUrl,
+            };
           }
         } catch {
           // Token invalid, continue as guest
@@ -48,7 +49,6 @@ function initSockets(io) {
       avatarUrl: user?.avatarUrl,
     });
 
-    // Automatically join the main lounge room
     socket.join('lounge');
 
     // Broadcast updated listener count to all lounge clients
@@ -62,16 +62,26 @@ function initSockets(io) {
 
     // Provide recent chat history
     try {
-      const messages = await prisma.chatMessage.findMany({
-        where: { deletedAt: null },
-        take: 50,
-        orderBy: { createdAt: 'desc' },
-        include: {
-          user: {
-            select: { id: true, username: true, avatarUrl: true, role: true },
-          },
-        },
-      });
+      const rawMessages = await ChatMessage.find({ deletedAt: null })
+        .sort({ createdAt: -1 })
+        .limit(50);
+
+      const messages = [];
+      for (const msg of rawMessages) {
+        let userObj = msg.user;
+        if (!userObj?.username) {
+          userObj = await User.findById(msg.user);
+        }
+        messages.push({
+          id: msg.id,
+          message: msg.message,
+          createdAt: msg.createdAt,
+          user: userObj
+            ? { id: userObj.id, username: userObj.username, avatarUrl: userObj.avatarUrl, role: userObj.role }
+            : { username: 'Lounge Member', role: 'USER' },
+        });
+      }
+
       socket.emit('chat:history', messages.reverse());
     } catch (err) {
       console.error('[Socket] Error fetching chat history:', err.message);
@@ -88,7 +98,6 @@ function initSockets(io) {
           return socket.emit('chat:error', errResponse);
         }
 
-        // Rate limit: max 1 message every 1.5 seconds per user
         const now = Date.now();
         const lastSent = socketMessageCooldowns.get(user.id) || 0;
         if (now - lastSent < 1500) {
@@ -105,19 +114,24 @@ function initSockets(io) {
           return socket.emit('chat:error', errResponse);
         }
 
-        const chatMessage = await prisma.chatMessage.create({
-          data: {
-            userId: user.id,
-            message: sanitized,
-          },
-          include: {
-            user: {
-              select: { id: true, username: true, avatarUrl: true, role: true },
-            },
-          },
+        const msgRecord = await ChatMessage.create({
+          user: user.id,
+          message: sanitized,
+          createdAt: new Date(),
         });
 
-        // Broadcast new message to everyone in the lounge
+        const chatMessage = {
+          id: msgRecord.id,
+          message: msgRecord.message,
+          createdAt: msgRecord.createdAt,
+          user: {
+            id: user.id,
+            username: user.username,
+            avatarUrl: user.avatarUrl,
+            role: user.role,
+          },
+        };
+
         io.to('lounge').emit('chat:message', chatMessage);
 
         if (callback) callback({ success: true, message: chatMessage });
@@ -127,7 +141,6 @@ function initSockets(io) {
       }
     });
 
-    // Delete message (Moderators and Admins only)
     socket.on('chat:delete', async (data, callback) => {
       try {
         if (!user || (user.role !== 'ADMIN' && user.role !== 'MODERATOR')) {
@@ -139,10 +152,7 @@ function initSockets(io) {
         const { messageId } = data || {};
         if (!messageId) return;
 
-        await prisma.chatMessage.update({
-          where: { id: messageId },
-          data: { deletedAt: new Date() },
-        });
+        await ChatMessage.findByIdAndUpdate(messageId, { deletedAt: new Date() });
 
         io.to('lounge').emit('chat:message-deleted', { messageId });
         if (callback) callback({ success: true });
