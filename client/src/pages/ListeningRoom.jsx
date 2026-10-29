@@ -15,7 +15,6 @@ import {
   Info,
   Shield,
   Volume2,
-  Tv,
 } from 'lucide-react';
 
 export default function ListeningRoom() {
@@ -27,17 +26,9 @@ export default function ListeningRoom() {
     playbackMode,
     isAutoplayBlocked,
     unlockAudio,
-    isVideoOpen,
-    setIsVideoOpen,
-    toggleVideoOpen,
   } = useMusic();
   const { listenersCount } = useSocket();
   const { isAdmin } = useAuth();
-
-  // Automatically pop out video stream when visiting Listening Room
-  useEffect(() => {
-    setIsVideoOpen(true);
-  }, []);
 
   const currentTrack = stationState.currentTrack;
   const isStationMode = playbackMode === 'station';
@@ -126,22 +117,23 @@ export default function ListeningRoom() {
       >
         {/* Left: Video Player & Audio Stream info */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {/* Lounge Broadcast Visual Stage */}
+          {/* Deluxe Music Lounge Stage (Pure Audio & Visuals, No Raw YouTube Embeds) */}
           <div
             className="glass-panel"
             style={{
               position: 'relative',
-              height: '240px',
-              borderRadius: 'var(--radius-lg)',
+              borderRadius: 'var(--radius-xl)',
               overflow: 'hidden',
+              padding: '36px 32px',
+              background: 'linear-gradient(135deg, rgba(26, 31, 48, 0.85) 0%, rgba(14, 17, 26, 0.95) 100%)',
+              border: '1px solid var(--border-glass)',
+              boxShadow: 'var(--shadow-lg)',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'flex-end',
-              padding: '24px',
-              background: '#0B0D13',
+              gap: '24px',
             }}
           >
-            {/* Background artwork with blur */}
+            {/* Ambient Blurred Background Glow */}
             {currentTrack?.thumbnailUrl && (
               <div
                 style={{
@@ -150,114 +142,177 @@ export default function ListeningRoom() {
                   backgroundImage: `url(${currentTrack.thumbnailUrl})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
-                  opacity: 0.35,
-                  filter: 'blur(10px) brightness(0.7)',
-                  transform: 'scale(1.1)',
+                  opacity: 0.18,
+                  filter: 'blur(35px) brightness(0.6)',
+                  transform: 'scale(1.2)',
+                  pointerEvents: 'none',
                 }}
               />
             )}
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(to top, rgba(11, 13, 19, 0.95) 0%, rgba(11, 13, 19, 0.3) 100%)',
-              }}
-            />
 
-            {/* Stage content */}
-            <div style={{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <img
-                  src={currentTrack?.thumbnailUrl || 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=300&auto=format&fit=crop&q=80'}
-                  alt={currentTrack?.title}
-                  style={{
-                    width: '68px',
-                    height: '68px',
-                    borderRadius: 'var(--radius-md)',
-                    objectFit: 'cover',
-                    boxShadow: 'var(--shadow-md)',
-                    border: '1px solid var(--border-glass)',
-                  }}
-                />
-                <div>
-                  <div style={{ fontSize: '11px', fontWeight: '700', color: '#A78BFA', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    Live Studio Feed
-                  </div>
-                  <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#FFF', marginTop: '2px' }}>
-                    {currentTrack?.title || 'Waiting for track...'}
-                  </h3>
-                  <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
-                    {currentTrack?.artist || 'Lounge Radio'}
-                  </div>
-                </div>
-              </div>
-
-              {/* Video stream toggle pill */}
-              <button
-                onClick={toggleVideoOpen}
-                className={isVideoOpen ? 'btn-primary' : 'btn-secondary'}
-                style={{ fontSize: '12px', padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '8px' }}
-              >
-                <Tv size={15} />
-                <span>{isVideoOpen ? 'Hide Video Window' : 'Watch YouTube Video'}</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Current Track Details Card */}
-          <div
-            className="glass-panel"
-            style={{
-              padding: '24px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '16px',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <span style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', color: '#A78BFA', letterSpacing: '0.06em' }}>
-                  Broadcasting Now
+            {/* Stage Header Info */}
+            <div style={{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span className="badge-live">
+                  <span className="badge-live-dot" />
+                  <span>ON AIR BROADCAST</span>
                 </span>
-                <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#FFF', marginTop: '2px' }}>
-                  {currentTrack?.title || 'Waiting for next track...'}
-                </h2>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '15px' }}>
-                  {currentTrack?.artist || 'Lounge Station'}
-                </p>
-              </div>
-
-              {isAutoplayBlocked ? (
-                <button onClick={unlockAudio} className="btn-primary" style={{ padding: '10px 20px', fontSize: '14px' }}>
-                  <Volume2 size={16} /> Join Sound
-                </button>
-              ) : (
-                <button
-                  onClick={togglePlay}
-                  className="btn-icon active"
-                  style={{ width: '48px', height: '48px' }}
-                  title={isPlaying ? 'Pause' : 'Play'}
+                <span
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    color: '#06B6D4',
+                    background: 'rgba(6, 182, 212, 0.12)',
+                    padding: '3px 10px',
+                    borderRadius: 'var(--radius-full)',
+                    border: '1px solid rgba(6, 182, 212, 0.25)',
+                    letterSpacing: '0.04em',
+                  }}
                 >
-                  {isPlaying ? <Pause size={20} /> : <Play size={20} fill="#FFF" style={{ marginLeft: '2px' }} />}
-                </button>
-              )}
+                  DELUXE HI-FI AUDIO
+                </span>
+              </div>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                Curated by Station Master
+              </div>
             </div>
 
-            {/* Audio Visualizer */}
+            {/* Main Stage Artwork & Song Title Presentation */}
             <div
               style={{
-                background: 'rgba(11, 13, 19, 0.7)',
-                borderRadius: 'var(--radius-md)',
-                padding: '12px 16px',
-                border: '1px solid var(--border-subtle)',
+                position: 'relative',
+                zIndex: 2,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '24px',
               }}
             >
-              <Visualizer height={50} barCount={48} />
+              {/* Album Art with Vinyl Glow Aura */}
+              <div
+                style={{
+                  position: 'relative',
+                  width: '120px',
+                  height: '120px',
+                  borderRadius: 'var(--radius-lg)',
+                  overflow: 'hidden',
+                  flexShrink: 0,
+                  boxShadow: '0 12px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(139, 92, 246, 0.3)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                }}
+              >
+                <img
+                  src={
+                    currentTrack?.thumbnailUrl ||
+                    'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&auto=format&fit=crop&q=80'
+                  }
+                  alt={currentTrack?.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                  }}
+                />
+              </div>
+
+              {/* Title & Artist & Quick Play Control */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: '#A78BFA', letterSpacing: '0.08em', marginBottom: '4px' }}>
+                  Now Broadcasting
+                </div>
+                <h2
+                  style={{
+                    fontSize: 'clamp(20px, 3vw, 26px)',
+                    fontWeight: '800',
+                    color: '#FFF',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    marginBottom: '6px',
+                  }}
+                >
+                  {currentTrack?.title || 'Waiting for next track...'}
+                </h2>
+                <p
+                  style={{
+                    fontSize: '15px',
+                    color: 'var(--text-secondary)',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    marginBottom: '16px',
+                  }}
+                >
+                  {currentTrack?.artist || 'Lounge Radio'} {currentTrack?.album ? `• ${currentTrack.album}` : ''}
+                </p>
+
+                {/* Audio controls */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                  {isAutoplayBlocked ? (
+                    <button onClick={unlockAudio} className="btn-primary" style={{ padding: '8px 18px', fontSize: '13px' }}>
+                      <Volume2 size={16} /> Join Sound
+                    </button>
+                  ) : (
+                    <button
+                      onClick={togglePlay}
+                      className="btn-primary"
+                      style={{ padding: '8px 20px', fontSize: '13px' }}
+                    >
+                      {isPlaying ? <Pause size={16} /> : <Play size={16} fill="#FFF" />}
+                      <span>{isPlaying ? 'Pause Station' : 'Listen Now'}</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Deluxe Live Audio Frequency Spectrum */}
+            <div
+              style={{
+                position: 'relative',
+                zIndex: 2,
+                padding: '14px 18px',
+                background: 'rgba(0, 0, 0, 0.35)',
+                borderRadius: 'var(--radius-lg)',
+                border: '1px solid rgba(255, 255, 255, 0.06)',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '10px',
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    color: '#94A3B8',
+                    letterSpacing: '0.06em',
+                  }}
+                >
+                  LIVE AUDIO SPECTRUM
+                </span>
+                <span
+                  style={{
+                    fontSize: '11px',
+                    color: isPlaying ? '#10B981' : '#64748B',
+                    fontWeight: '700',
+                    letterSpacing: '0.03em',
+                  }}
+                >
+                  {isPlaying ? '● LIVE AUDIO STREAM' : 'PAUSED'}
+                </span>
+              </div>
+              <Visualizer height={56} barCount={44} />
             </div>
 
             {/* Info notice for listeners */}
             <div
               style={{
+                position: 'relative',
+                zIndex: 2,
                 display: 'flex',
                 alignItems: 'center',
                 gap: '10px',

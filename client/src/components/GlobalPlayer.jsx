@@ -20,6 +20,7 @@ export default function GlobalPlayer() {
     setIsAutoplayBlocked,
     unlockAudio,
     nextTrack,
+    togglePlay,
     isVideoOpen,
     setIsVideoOpen,
   } = useMusic();
@@ -67,11 +68,12 @@ export default function GlobalPlayer() {
         videoId,
         playerVars: {
           autoplay: 1,
-          controls: 1,
-          disablekb: 0,
+          controls: 0,
+          disablekb: 1,
           enablejsapi: 1,
-          fs: 1,
+          fs: 0,
           modestbranding: 1,
+          iv_load_policy: 3,
           origin: window.location.origin,
           playsinline: 1,
           rel: 0,
@@ -230,7 +232,7 @@ export default function GlobalPlayer() {
                   textOverflow: 'ellipsis',
                 }}
               >
-                {currentTrack?.title || 'YouTube Lounge Stream'}
+                {currentTrack?.title || 'Lounge Cinema Stream'}
               </span>
             </div>
             <button
@@ -244,9 +246,43 @@ export default function GlobalPlayer() {
           </div>
         )}
 
-        {/* The single persistent target div for YT.Player */}
-        <div style={{ flex: 1, width: '100%', position: 'relative', background: '#000' }}>
-          <div id="youtube-bridge-iframe-target" style={{ width: '100%', height: '100%' }}></div>
+        {/* The single persistent target div for YT.Player with YouTube logo cloaking */}
+        <div
+          style={{
+            flex: 1,
+            width: '100%',
+            position: 'relative',
+            background: '#000',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Target iframe placeholder styled with overflow cropping and pointer-events disabled */}
+          <div
+            id="youtube-bridge-iframe-target"
+            style={{
+              position: 'absolute',
+              top: '-12%',
+              left: '-12%',
+              width: '124%',
+              height: '124%',
+              transform: 'scale(1.12)',
+              transformOrigin: 'center center',
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* Transparent interactive shield that intercepts clicks and toggles play/pause without revealing YouTube context/links */}
+          <div
+            onClick={togglePlay}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 5,
+              cursor: 'pointer',
+              background: 'transparent',
+            }}
+            title={isPlaying ? 'Click to pause stream' : 'Click to play stream'}
+          />
 
           {/* Embed restriction error notice inside video window */}
           {embedError && (

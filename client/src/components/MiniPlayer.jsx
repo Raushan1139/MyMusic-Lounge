@@ -195,7 +195,7 @@ export default function MiniPlayer({ onOpenPlaylistModal }) {
               onClick={toggleVideoOpen}
               className={`btn-icon ${isVideoOpen ? 'active' : ''}`}
               style={{ width: '38px', height: '38px' }}
-              title={isVideoOpen ? 'Hide video window' : 'Show YouTube video window'}
+              title={isVideoOpen ? 'Hide visual window' : 'Open visual stream window'}
             >
               {isVideoOpen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
             </button>
