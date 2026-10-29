@@ -29,7 +29,7 @@ async function seed() {
     console.log(`Admin user exists: ${admin.email}`);
   }
 
-  // Demo regular user
+  // Demo regular user (AlexLounge)
   const demoEmail = 'listener@mymusiclounge.com';
   let demoUser = await User.findOne({ email: demoEmail });
   if (!demoUser) {
@@ -44,8 +44,23 @@ async function seed() {
     console.log('Created demo listener user');
   }
 
-  // 2. Demo Tracks (Real, public, embeddable YouTube music videos)
+  // Raushan User
+  const raushanEmail = 'raushan113925@gmail.com';
+  let raushanUser = await User.findOne({ email: raushanEmail });
+  if (!raushanUser) {
+    raushanUser = await User.create({
+      username: 'Raushan',
+      email: raushanEmail,
+      passwordHash: '$2a$10$vFY9yDtQr8sxuNbmzkoTm.5uUCWQY3jG2onC3IRNyUX1oQkATbDEi',
+      role: 'USER',
+      avatarUrl: 'https://api.dicebear.com/7.x/identicon/svg?seed=Raushan',
+    });
+    console.log('Restored user account: Raushan');
+  }
+
+  // 2. All Catalog Tracks (Lounge tracks + User custom added tracks)
   const tracksData = [
+    // Lounge Originals
     {
       title: 'Lofi Hip Hop - Chill Beats',
       artist: 'Lofi Lounge Sessions',
@@ -126,6 +141,108 @@ async function seed() {
       durationSeconds: 290,
       isPublished: true,
     },
+
+    // User's Added Masterpieces
+    {
+      title: 'Pyar ki Raah',
+      artist: 'Ankita',
+      album: 'Gazal',
+      thumbnailUrl: 'https://img.youtube.com/vi/8-e9YsRyxJY/hqdefault.jpg',
+      provider: 'youtube',
+      providerVideoId: '8-e9YsRyxJY',
+      durationSeconds: 180,
+      isPublished: true,
+    },
+    {
+      title: 'Duniya Kisi Ke Pyar Mein',
+      artist: 'Ustad Mehdi Hassan',
+      album: null,
+      thumbnailUrl: 'https://img.youtube.com/vi/mJYZjMgTn4A/hqdefault.jpg',
+      provider: 'youtube',
+      providerVideoId: 'mJYZjMgTn4A',
+      durationSeconds: 180,
+      isPublished: true,
+    },
+    {
+      title: 'Khamosh Lab Hai Jhuki Hai Palkein',
+      artist: 'Mehdi Hasan sahab',
+      album: null,
+      thumbnailUrl: 'https://img.youtube.com/vi/z3uynSFb1VM/hqdefault.jpg',
+      provider: 'youtube',
+      providerVideoId: 'z3uynSFb1VM',
+      durationSeconds: 180,
+      isPublished: true,
+    },
+    {
+      title: 'Ham Tere Sahar me',
+      artist: 'Ghulam Ali',
+      album: null,
+      thumbnailUrl: 'https://img.youtube.com/vi/7yLBNUKqbLs/hqdefault.jpg',
+      provider: 'youtube',
+      providerVideoId: '7yLBNUKqbLs',
+      durationSeconds: 180,
+      isPublished: true,
+    },
+    {
+      title: 'Ham ko kiske Gham ne mara',
+      artist: 'Ghulam Ali Ghazal',
+      album: null,
+      thumbnailUrl: 'https://img.youtube.com/vi/LnVW-lYaRIs/hqdefault.jpg',
+      provider: 'youtube',
+      providerVideoId: 'LnVW-lYaRIs',
+      durationSeconds: 180,
+      isPublished: true,
+    },
+    {
+      title: 'Kal Chaudhvin Ki Raat Thi',
+      artist: 'Jagjit Singh',
+      album: null,
+      thumbnailUrl: 'https://img.youtube.com/vi/dN1O1vQju2Q/hqdefault.jpg',
+      provider: 'youtube',
+      providerVideoId: 'dN1O1vQju2Q',
+      durationSeconds: 180,
+      isPublished: true,
+    },
+    {
+      title: 'Humein To Matlab Hai Sirf Tumse',
+      artist: 'Ankita',
+      album: null,
+      thumbnailUrl: 'https://img.youtube.com/vi/iaUYQ7PZWBc/hqdefault.jpg',
+      provider: 'youtube',
+      providerVideoId: 'iaUYQ7PZWBc',
+      durationSeconds: 180,
+      isPublished: true,
+    },
+    {
+      title: 'Hothon Se Chhu Lo Tum',
+      artist: 'Jagjit Singh',
+      album: null,
+      thumbnailUrl: 'https://img.youtube.com/vi/mBZBK09dlyk/hqdefault.jpg',
+      provider: 'youtube',
+      providerVideoId: 'mBZBK09dlyk',
+      durationSeconds: 180,
+      isPublished: true,
+    },
+    {
+      title: 'Chupke Chupke Raat Din Aansoon Bahana Yaad Hai',
+      artist: 'Ghulam Ali Ghazals',
+      album: null,
+      thumbnailUrl: 'https://img.youtube.com/vi/MWjaK_nW72E/hqdefault.jpg',
+      provider: 'youtube',
+      providerVideoId: 'MWjaK_nW72E',
+      durationSeconds: 180,
+      isPublished: true,
+    },
+    {
+      title: 'Yeh Jo Halka Halka Suroor Hai',
+      artist: 'Nusrat Fateh Ali Khan',
+      album: null,
+      thumbnailUrl: 'https://img.youtube.com/vi/D8l3fLJ1Klw/hqdefault.jpg',
+      provider: 'youtube',
+      providerVideoId: 'D8l3fLJ1Klw',
+      durationSeconds: 180,
+      isPublished: true,
+    },
   ];
 
   const seededTracks = [];
@@ -141,7 +258,7 @@ async function seed() {
   }
   console.log(`Seeded ${seededTracks.length} catalog tracks into MongoDB`);
 
-  // 3. Playlists
+  // 3. Playlists (Curated + "My Favourite")
   const samplePlaylists = [
     {
       name: 'Chill & Relax',
@@ -179,12 +296,18 @@ async function seed() {
       coverUrl: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=600&auto=format&fit=crop&q=80',
       trackIndices: [1, 2, 6],
     },
+    {
+      name: 'My Favourite',
+      description: 'Timeless Ghazals & Soulful Masterpieces (Mehdi Hassan, Jagjit Singh, Ghulam Ali, Nusrat Fateh Ali Khan).',
+      coverUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAJzHRj_LyldsPJn24kScZ93yNCBEeEANxDTzTr0EB4g&s=10',
+      trackIndices: [9, 10, 11, 12, 13, 14, 15, 16, 17, 8],
+    },
   ];
 
   let defaultPlaylist = null;
 
   for (const pl of samplePlaylists) {
-    let existingPl = await Playlist.findOne({ name: pl.name, owner: admin.id });
+    let existingPl = await Playlist.findOne({ name: pl.name });
     if (!existingPl) {
       const tracks = pl.trackIndices.map((idx, pos) => ({
         track: seededTracks[idx].id,
@@ -201,7 +324,7 @@ async function seed() {
         isPublished: true,
         tracks,
       });
-      console.log(`Created playlist in MongoDB: ${existingPl.name}`);
+      console.log(`Created playlist in MongoDB: ${existingPl.name} (${tracks.length} tracks)`);
     }
 
     if (pl.name === 'Chill & Relax') {

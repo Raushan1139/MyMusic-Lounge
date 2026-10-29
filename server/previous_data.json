@@ -1,0 +1,973 @@
+{
+  "tracks": [
+    {
+      "id": "f41d2e6a-56eb-4678-8f0c-2af6b1abb1e2",
+      "title": "Lofi Hip Hop - Chill Beats",
+      "artist": "Lofi Lounge Sessions",
+      "album": "Midnight Coffee",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&auto=format&fit=crop&q=80",
+      "provider": "youtube",
+      "providerVideoId": "jfKfPfyJRdk",
+      "durationSeconds": 240,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:50.921Z",
+      "updatedAt": "2026-10-28T18:42:50.921Z"
+    },
+    {
+      "id": "47517482-f704-491b-bd5a-87289a0a5405",
+      "title": "Midnight Drive Synthwave",
+      "artist": "Neon Horizon",
+      "album": "Cyber Dreams",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=600&auto=format&fit=crop&q=80",
+      "provider": "youtube",
+      "providerVideoId": "4xDzrJKXOOY",
+      "durationSeconds": 310,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:50.926Z",
+      "updatedAt": "2026-10-28T18:42:50.926Z"
+    },
+    {
+      "id": "e35f5117-73b4-42be-965e-58ee9961f334",
+      "title": "Deep Focus Ambient Flow",
+      "artist": "Cerebral Resonance",
+      "album": "Zero Distraction",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&auto=format&fit=crop&q=80",
+      "provider": "youtube",
+      "providerVideoId": "DWcJFNfaw9c",
+      "durationSeconds": 280,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:50.932Z",
+      "updatedAt": "2026-10-28T18:42:50.932Z"
+    },
+    {
+      "id": "0493b8af-3f92-47a2-88a2-05573536acbb",
+      "title": "Rainy Night In Tokyo",
+      "artist": "Lo-Fi Melancholy",
+      "album": "Monsoon Echoes",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80",
+      "provider": "youtube",
+      "providerVideoId": "5yx6BWlEVcY",
+      "durationSeconds": 260,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:50.936Z",
+      "updatedAt": "2026-10-28T18:42:50.936Z"
+    },
+    {
+      "id": "2b4fe915-0298-44f4-a3c4-8a7a7c6f4448",
+      "title": "Coffee Shop Warm Acoustics",
+      "artist": "Velvet Strings",
+      "album": "Espresso Diaries",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&auto=format&fit=crop&q=80",
+      "provider": "youtube",
+      "providerVideoId": "e3L1I71845o",
+      "durationSeconds": 215,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:50.939Z",
+      "updatedAt": "2026-10-28T18:42:50.939Z"
+    },
+    {
+      "id": "7fc8e200-6a72-452b-8001-33c92afdd7c2",
+      "title": "Evening Smooth Jazz Lounge",
+      "artist": "The Delux Quartet",
+      "album": "Golden Hour Soiree",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=600&auto=format&fit=crop&q=80",
+      "provider": "youtube",
+      "providerVideoId": "Dx5qFachd3A",
+      "durationSeconds": 345,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:50.942Z",
+      "updatedAt": "2026-10-28T18:42:50.942Z"
+    },
+    {
+      "id": "76cba2f0-423b-4285-ab04-58c7bae29b89",
+      "title": "Electric Euphoria Workout",
+      "artist": "Pulse Architect",
+      "album": "High Cadence",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1534258936925-c58bed479fcb?w=600&auto=format&fit=crop&q=80",
+      "provider": "youtube",
+      "providerVideoId": "b1kbLwvqugk",
+      "durationSeconds": 230,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:50.949Z",
+      "updatedAt": "2026-10-28T18:42:50.949Z"
+    },
+    {
+      "id": "78d2d15f-4556-4fe8-b53f-c4908faffce9",
+      "title": "Sunset Whispers & Soft Chords",
+      "artist": "Aura Bloom",
+      "album": "Twilight Breeze",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80",
+      "provider": "youtube",
+      "providerVideoId": "lTRiuFIWV54",
+      "durationSeconds": 290,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:50.952Z",
+      "updatedAt": "2026-10-28T18:42:50.952Z"
+    },
+    {
+      "id": "7f7b25e2-756e-4ec4-b82b-6f00b7297e81",
+      "title": "Pyar ki Raah",
+      "artist": "Ankita",
+      "album": "Gazal",
+      "thumbnailUrl": "https://img.youtube.com/vi/8-e9YsRyxJY/hqdefault.jpg",
+      "provider": "youtube",
+      "providerVideoId": "8-e9YsRyxJY",
+      "durationSeconds": 180,
+      "isPublished": true,
+      "createdAt": "2026-10-28T19:13:59.525Z",
+      "updatedAt": "2026-10-28T19:13:59.525Z"
+    },
+    {
+      "id": "fdf3b06b-02a7-4db0-b51c-6dcd1968af46",
+      "title": "Duniya Kisi Ke Pyar Mein",
+      "artist": "Ustad Mehdi Hassan",
+      "album": null,
+      "thumbnailUrl": "https://img.youtube.com/vi/mJYZjMgTn4A/hqdefault.jpg",
+      "provider": "youtube",
+      "providerVideoId": "mJYZjMgTn4A",
+      "durationSeconds": 180,
+      "isPublished": true,
+      "createdAt": "2026-10-28T19:19:13.408Z",
+      "updatedAt": "2026-10-28T19:19:13.408Z"
+    },
+    {
+      "id": "459d4409-01e9-46fb-bd19-1aabb3fa9522",
+      "title": "Khamosh Lab Hai Jhuki Hai Palkein",
+      "artist": "Mehdi Hasan sahab",
+      "album": null,
+      "thumbnailUrl": "https://img.youtube.com/vi/z3uynSFb1VM/hqdefault.jpg",
+      "provider": "youtube",
+      "providerVideoId": "z3uynSFb1VM",
+      "durationSeconds": 180,
+      "isPublished": true,
+      "createdAt": "2026-10-28T19:20:35.329Z",
+      "updatedAt": "2026-10-28T19:20:35.329Z"
+    },
+    {
+      "id": "fd974d48-cf28-4880-8b76-0a5b1f7e58e7",
+      "title": "Ham Tere Sahar me",
+      "artist": "Ghulam Ali",
+      "album": null,
+      "thumbnailUrl": "https://img.youtube.com/vi/7yLBNUKqbLs/hqdefault.jpg",
+      "provider": "youtube",
+      "providerVideoId": "7yLBNUKqbLs",
+      "durationSeconds": 180,
+      "isPublished": true,
+      "createdAt": "2026-10-28T19:22:31.688Z",
+      "updatedAt": "2026-10-28T19:22:31.688Z"
+    },
+    {
+      "id": "dc786c23-5cb6-42dd-b5fc-ef1d1901af67",
+      "title": "Ham ko kiske Gham ne mara",
+      "artist": "Ghulam Ali Ghazal",
+      "album": null,
+      "thumbnailUrl": "https://img.youtube.com/vi/LnVW-lYaRIs/hqdefault.jpg",
+      "provider": "youtube",
+      "providerVideoId": "LnVW-lYaRIs",
+      "durationSeconds": 180,
+      "isPublished": true,
+      "createdAt": "2026-10-28T19:23:33.106Z",
+      "updatedAt": "2026-10-28T19:23:33.106Z"
+    },
+    {
+      "id": "b2c1d04f-51a8-439f-aeac-2fd729f670e7",
+      "title": "Kal Chaudhvin Ki Raat Thi",
+      "artist": "Jagjit Singh",
+      "album": null,
+      "thumbnailUrl": "https://img.youtube.com/vi/dN1O1vQju2Q/hqdefault.jpg",
+      "provider": "youtube",
+      "providerVideoId": "dN1O1vQju2Q",
+      "durationSeconds": 180,
+      "isPublished": true,
+      "createdAt": "2026-10-28T19:25:59.285Z",
+      "updatedAt": "2026-10-28T19:25:59.285Z"
+    },
+    {
+      "id": "cb70de0e-c731-462d-939a-f348e3a33d81",
+      "title": "Humein To Matlab Hai Sirf Tumse",
+      "artist": "Ankita",
+      "album": null,
+      "thumbnailUrl": "https://img.youtube.com/vi/iaUYQ7PZWBc/hqdefault.jpg",
+      "provider": "youtube",
+      "providerVideoId": "iaUYQ7PZWBc",
+      "durationSeconds": 180,
+      "isPublished": true,
+      "createdAt": "2026-10-28T19:29:18.168Z",
+      "updatedAt": "2026-10-28T19:29:18.168Z"
+    },
+    {
+      "id": "5a00ca72-9859-4e76-ad9a-503adf8b0c9a",
+      "title": "Hothon Se Chhu Lo Tum",
+      "artist": "Jagjit Singh",
+      "album": null,
+      "thumbnailUrl": "https://img.youtube.com/vi/mBZBK09dlyk/hqdefault.jpg",
+      "provider": "youtube",
+      "providerVideoId": "mBZBK09dlyk",
+      "durationSeconds": 180,
+      "isPublished": true,
+      "createdAt": "2026-10-28T19:33:35.997Z",
+      "updatedAt": "2026-10-28T19:33:35.997Z"
+    },
+    {
+      "id": "c8efb69c-b541-47ab-9960-50f6194dbd5b",
+      "title": "Chupke Chupke Raat Din Aansoon Bahana Yaad Hai",
+      "artist": "Ghulam Ali Ghazals",
+      "album": null,
+      "thumbnailUrl": "https://img.youtube.com/vi/MWjaK_nW72E/hqdefault.jpg",
+      "provider": "youtube",
+      "providerVideoId": "MWjaK_nW72E",
+      "durationSeconds": 180,
+      "isPublished": true,
+      "createdAt": "2026-10-28T19:37:12.350Z",
+      "updatedAt": "2026-10-28T19:37:12.350Z"
+    },
+    {
+      "id": "b27b0e58-08a1-4327-b8af-ecb0cca087b2",
+      "title": "Yeh Jo Halka Halka Suroor Hai",
+      "artist": "Nusrat Fateh Ali Khan",
+      "album": null,
+      "thumbnailUrl": "https://img.youtube.com/vi/D8l3fLJ1Klw/hqdefault.jpg",
+      "provider": "youtube",
+      "providerVideoId": "D8l3fLJ1Klw",
+      "durationSeconds": 180,
+      "isPublished": true,
+      "createdAt": "2026-10-28T19:40:18.121Z",
+      "updatedAt": "2026-10-28T19:40:18.121Z"
+    }
+  ],
+  "playlists": [
+    {
+      "id": "40fd15f9-cf38-4e99-ad4c-4587923c5184",
+      "name": "Chill & Relax",
+      "description": "Mellow soothing frequencies designed for unwinding after hours.",
+      "coverUrl": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&auto=format&fit=crop&q=80",
+      "ownerId": "c1965822-12c8-4425-af89-1c3d463931ba",
+      "isPublic": true,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:50.957Z",
+      "updatedAt": "2026-10-28T18:42:50.957Z",
+      "tracks": [
+        {
+          "id": "f5537874-b95d-4a96-8b59-2b983a701f44",
+          "playlistId": "40fd15f9-cf38-4e99-ad4c-4587923c5184",
+          "trackId": "0493b8af-3f92-47a2-88a2-05573536acbb",
+          "position": 1,
+          "addedAt": "2026-10-28T18:42:50.971Z",
+          "track": {
+            "id": "0493b8af-3f92-47a2-88a2-05573536acbb",
+            "title": "Rainy Night In Tokyo",
+            "artist": "Lo-Fi Melancholy",
+            "album": "Monsoon Echoes",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "5yx6BWlEVcY",
+            "durationSeconds": 260,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.936Z",
+            "updatedAt": "2026-10-28T18:42:50.936Z"
+          }
+        },
+        {
+          "id": "7f5ada8b-0cf8-433e-9403-cff730c4c0b3",
+          "playlistId": "40fd15f9-cf38-4e99-ad4c-4587923c5184",
+          "trackId": "2b4fe915-0298-44f4-a3c4-8a7a7c6f4448",
+          "position": 2,
+          "addedAt": "2026-10-28T18:42:50.974Z",
+          "track": {
+            "id": "2b4fe915-0298-44f4-a3c4-8a7a7c6f4448",
+            "title": "Coffee Shop Warm Acoustics",
+            "artist": "Velvet Strings",
+            "album": "Espresso Diaries",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "e3L1I71845o",
+            "durationSeconds": 215,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.939Z",
+            "updatedAt": "2026-10-28T18:42:50.939Z"
+          }
+        },
+        {
+          "id": "ba9626cb-cb35-443a-a382-62d28a4d753b",
+          "playlistId": "40fd15f9-cf38-4e99-ad4c-4587923c5184",
+          "trackId": "78d2d15f-4556-4fe8-b53f-c4908faffce9",
+          "position": 3,
+          "addedAt": "2026-10-28T18:42:50.982Z",
+          "track": {
+            "id": "78d2d15f-4556-4fe8-b53f-c4908faffce9",
+            "title": "Sunset Whispers & Soft Chords",
+            "artist": "Aura Bloom",
+            "album": "Twilight Breeze",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "lTRiuFIWV54",
+            "durationSeconds": 290,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.952Z",
+            "updatedAt": "2026-10-28T18:42:50.952Z"
+          }
+        },
+        {
+          "id": "f774fe30-2139-41d5-acc2-4dad61f86c86",
+          "playlistId": "40fd15f9-cf38-4e99-ad4c-4587923c5184",
+          "trackId": "f41d2e6a-56eb-4678-8f0c-2af6b1abb1e2",
+          "position": 0,
+          "addedAt": "2026-10-28T18:42:50.962Z",
+          "track": {
+            "id": "f41d2e6a-56eb-4678-8f0c-2af6b1abb1e2",
+            "title": "Lofi Hip Hop - Chill Beats",
+            "artist": "Lofi Lounge Sessions",
+            "album": "Midnight Coffee",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "jfKfPfyJRdk",
+            "durationSeconds": 240,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.921Z",
+            "updatedAt": "2026-10-28T18:42:50.921Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "3e7a22d0-cda4-4125-ae88-f4e7eaf73149",
+      "name": "Coding Focus",
+      "description": "Unobtrusive instrumental rhythms tuned for deep programming and problem solving.",
+      "coverUrl": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&auto=format&fit=crop&q=80",
+      "ownerId": "c1965822-12c8-4425-af89-1c3d463931ba",
+      "isPublic": true,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:50.986Z",
+      "updatedAt": "2026-10-28T18:42:50.986Z",
+      "tracks": [
+        {
+          "id": "92606ba4-2759-42df-a79d-c37fbf700000",
+          "playlistId": "3e7a22d0-cda4-4125-ae88-f4e7eaf73149",
+          "trackId": "2b4fe915-0298-44f4-a3c4-8a7a7c6f4448",
+          "position": 3,
+          "addedAt": "2026-10-28T18:42:51.002Z",
+          "track": {
+            "id": "2b4fe915-0298-44f4-a3c4-8a7a7c6f4448",
+            "title": "Coffee Shop Warm Acoustics",
+            "artist": "Velvet Strings",
+            "album": "Espresso Diaries",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "e3L1I71845o",
+            "durationSeconds": 215,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.939Z",
+            "updatedAt": "2026-10-28T18:42:50.939Z"
+          }
+        },
+        {
+          "id": "41bb6f3b-17ed-4e74-9cbd-6260e8b31c2a",
+          "playlistId": "3e7a22d0-cda4-4125-ae88-f4e7eaf73149",
+          "trackId": "47517482-f704-491b-bd5a-87289a0a5405",
+          "position": 2,
+          "addedAt": "2026-10-28T18:42:50.998Z",
+          "track": {
+            "id": "47517482-f704-491b-bd5a-87289a0a5405",
+            "title": "Midnight Drive Synthwave",
+            "artist": "Neon Horizon",
+            "album": "Cyber Dreams",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "4xDzrJKXOOY",
+            "durationSeconds": 310,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.926Z",
+            "updatedAt": "2026-10-28T18:42:50.926Z"
+          }
+        },
+        {
+          "id": "199de953-bd59-4ad6-91ef-e6d05150b43a",
+          "playlistId": "3e7a22d0-cda4-4125-ae88-f4e7eaf73149",
+          "trackId": "e35f5117-73b4-42be-965e-58ee9961f334",
+          "position": 0,
+          "addedAt": "2026-10-28T18:42:50.989Z",
+          "track": {
+            "id": "e35f5117-73b4-42be-965e-58ee9961f334",
+            "title": "Deep Focus Ambient Flow",
+            "artist": "Cerebral Resonance",
+            "album": "Zero Distraction",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "DWcJFNfaw9c",
+            "durationSeconds": 280,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.932Z",
+            "updatedAt": "2026-10-28T18:42:50.932Z"
+          }
+        },
+        {
+          "id": "67bcba8d-7477-4940-80e3-2893d2b3551c",
+          "playlistId": "3e7a22d0-cda4-4125-ae88-f4e7eaf73149",
+          "trackId": "f41d2e6a-56eb-4678-8f0c-2af6b1abb1e2",
+          "position": 1,
+          "addedAt": "2026-10-28T18:42:50.994Z",
+          "track": {
+            "id": "f41d2e6a-56eb-4678-8f0c-2af6b1abb1e2",
+            "title": "Lofi Hip Hop - Chill Beats",
+            "artist": "Lofi Lounge Sessions",
+            "album": "Midnight Coffee",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "jfKfPfyJRdk",
+            "durationSeconds": 240,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.921Z",
+            "updatedAt": "2026-10-28T18:42:50.921Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "b881de00-774a-4f64-96d6-225e0c5a04f4",
+      "name": "Lo-Fi Sessions",
+      "description": "Analog tape warmth, vinyl crackle, and laid-back beat craft.",
+      "coverUrl": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80",
+      "ownerId": "c1965822-12c8-4425-af89-1c3d463931ba",
+      "isPublic": true,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:51.005Z",
+      "updatedAt": "2026-10-28T18:42:51.005Z",
+      "tracks": [
+        {
+          "id": "d124e237-d721-4f2c-b54e-60eb044af815",
+          "playlistId": "b881de00-774a-4f64-96d6-225e0c5a04f4",
+          "trackId": "0493b8af-3f92-47a2-88a2-05573536acbb",
+          "position": 1,
+          "addedAt": "2026-10-28T18:42:51.015Z",
+          "track": {
+            "id": "0493b8af-3f92-47a2-88a2-05573536acbb",
+            "title": "Rainy Night In Tokyo",
+            "artist": "Lo-Fi Melancholy",
+            "album": "Monsoon Echoes",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "5yx6BWlEVcY",
+            "durationSeconds": 260,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.936Z",
+            "updatedAt": "2026-10-28T18:42:50.936Z"
+          }
+        },
+        {
+          "id": "a2b9293b-9819-4fa6-9395-3c27f5ef8d4c",
+          "playlistId": "b881de00-774a-4f64-96d6-225e0c5a04f4",
+          "trackId": "2b4fe915-0298-44f4-a3c4-8a7a7c6f4448",
+          "position": 3,
+          "addedAt": "2026-10-28T18:42:51.023Z",
+          "track": {
+            "id": "2b4fe915-0298-44f4-a3c4-8a7a7c6f4448",
+            "title": "Coffee Shop Warm Acoustics",
+            "artist": "Velvet Strings",
+            "album": "Espresso Diaries",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "e3L1I71845o",
+            "durationSeconds": 215,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.939Z",
+            "updatedAt": "2026-10-28T18:42:50.939Z"
+          }
+        },
+        {
+          "id": "7d58c96c-6ad9-472a-8e96-e3dd9f6c2542",
+          "playlistId": "b881de00-774a-4f64-96d6-225e0c5a04f4",
+          "trackId": "78d2d15f-4556-4fe8-b53f-c4908faffce9",
+          "position": 2,
+          "addedAt": "2026-10-28T18:42:51.019Z",
+          "track": {
+            "id": "78d2d15f-4556-4fe8-b53f-c4908faffce9",
+            "title": "Sunset Whispers & Soft Chords",
+            "artist": "Aura Bloom",
+            "album": "Twilight Breeze",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "lTRiuFIWV54",
+            "durationSeconds": 290,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.952Z",
+            "updatedAt": "2026-10-28T18:42:50.952Z"
+          }
+        },
+        {
+          "id": "61257433-668e-46de-b907-4a310f3b2e2a",
+          "playlistId": "b881de00-774a-4f64-96d6-225e0c5a04f4",
+          "trackId": "f41d2e6a-56eb-4678-8f0c-2af6b1abb1e2",
+          "position": 0,
+          "addedAt": "2026-10-28T18:42:51.010Z",
+          "track": {
+            "id": "f41d2e6a-56eb-4678-8f0c-2af6b1abb1e2",
+            "title": "Lofi Hip Hop - Chill Beats",
+            "artist": "Lofi Lounge Sessions",
+            "album": "Midnight Coffee",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "jfKfPfyJRdk",
+            "durationSeconds": 240,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.921Z",
+            "updatedAt": "2026-10-28T18:42:50.921Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "a68f9d88-8153-444b-8cc7-b74a8cc60f55",
+      "name": "Romantic Collection",
+      "description": "Intimate melodies and velvet harmonies for special moments.",
+      "coverUrl": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=600&auto=format&fit=crop&q=80",
+      "ownerId": "c1965822-12c8-4425-af89-1c3d463931ba",
+      "isPublic": true,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:51.026Z",
+      "updatedAt": "2026-10-28T18:42:51.026Z",
+      "tracks": [
+        {
+          "id": "991ee54d-679b-44d6-8232-367334d26324",
+          "playlistId": "a68f9d88-8153-444b-8cc7-b74a8cc60f55",
+          "trackId": "2b4fe915-0298-44f4-a3c4-8a7a7c6f4448",
+          "position": 1,
+          "addedAt": "2026-10-28T18:42:51.034Z",
+          "track": {
+            "id": "2b4fe915-0298-44f4-a3c4-8a7a7c6f4448",
+            "title": "Coffee Shop Warm Acoustics",
+            "artist": "Velvet Strings",
+            "album": "Espresso Diaries",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "e3L1I71845o",
+            "durationSeconds": 215,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.939Z",
+            "updatedAt": "2026-10-28T18:42:50.939Z"
+          }
+        },
+        {
+          "id": "f3d343e1-a4c7-43ba-b298-8b2f9cacbc8d",
+          "playlistId": "a68f9d88-8153-444b-8cc7-b74a8cc60f55",
+          "trackId": "78d2d15f-4556-4fe8-b53f-c4908faffce9",
+          "position": 2,
+          "addedAt": "2026-10-28T18:42:51.037Z",
+          "track": {
+            "id": "78d2d15f-4556-4fe8-b53f-c4908faffce9",
+            "title": "Sunset Whispers & Soft Chords",
+            "artist": "Aura Bloom",
+            "album": "Twilight Breeze",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "lTRiuFIWV54",
+            "durationSeconds": 290,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.952Z",
+            "updatedAt": "2026-10-28T18:42:50.952Z"
+          }
+        },
+        {
+          "id": "96e02425-1976-43ef-ab41-72d3d78226d8",
+          "playlistId": "a68f9d88-8153-444b-8cc7-b74a8cc60f55",
+          "trackId": "7fc8e200-6a72-452b-8001-33c92afdd7c2",
+          "position": 0,
+          "addedAt": "2026-10-28T18:42:51.032Z",
+          "track": {
+            "id": "7fc8e200-6a72-452b-8001-33c92afdd7c2",
+            "title": "Evening Smooth Jazz Lounge",
+            "artist": "The Delux Quartet",
+            "album": "Golden Hour Soiree",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "Dx5qFachd3A",
+            "durationSeconds": 345,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.942Z",
+            "updatedAt": "2026-10-28T18:42:50.942Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "1b024b85-f8a7-4cd8-a397-813d193a7eac",
+      "name": "Workout Energy",
+      "description": "Uplifting tempo and bass drivers to keep the adrenaline pumping.",
+      "coverUrl": "https://images.unsplash.com/photo-1534258936925-c58bed479fcb?w=600&auto=format&fit=crop&q=80",
+      "ownerId": "c1965822-12c8-4425-af89-1c3d463931ba",
+      "isPublic": true,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:51.041Z",
+      "updatedAt": "2026-10-28T18:42:51.041Z",
+      "tracks": [
+        {
+          "id": "0ff5d045-a458-479c-9e01-4157398af004",
+          "playlistId": "1b024b85-f8a7-4cd8-a397-813d193a7eac",
+          "trackId": "47517482-f704-491b-bd5a-87289a0a5405",
+          "position": 1,
+          "addedAt": "2026-10-28T18:42:51.050Z",
+          "track": {
+            "id": "47517482-f704-491b-bd5a-87289a0a5405",
+            "title": "Midnight Drive Synthwave",
+            "artist": "Neon Horizon",
+            "album": "Cyber Dreams",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "4xDzrJKXOOY",
+            "durationSeconds": 310,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.926Z",
+            "updatedAt": "2026-10-28T18:42:50.926Z"
+          }
+        },
+        {
+          "id": "1de4927f-011a-48ae-acd4-293d5f276f9c",
+          "playlistId": "1b024b85-f8a7-4cd8-a397-813d193a7eac",
+          "trackId": "76cba2f0-423b-4285-ab04-58c7bae29b89",
+          "position": 0,
+          "addedAt": "2026-10-28T18:42:51.046Z",
+          "track": {
+            "id": "76cba2f0-423b-4285-ab04-58c7bae29b89",
+            "title": "Electric Euphoria Workout",
+            "artist": "Pulse Architect",
+            "album": "High Cadence",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1534258936925-c58bed479fcb?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "b1kbLwvqugk",
+            "durationSeconds": 230,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.949Z",
+            "updatedAt": "2026-10-28T18:42:50.949Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "2788a3fb-7b29-4abf-8e23-eeaa7bb3aad5",
+      "name": "Night Drive",
+      "description": "Synth-drenched nostalgia for neon highways and midnight skylines.",
+      "coverUrl": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=600&auto=format&fit=crop&q=80",
+      "ownerId": "c1965822-12c8-4425-af89-1c3d463931ba",
+      "isPublic": true,
+      "isPublished": true,
+      "createdAt": "2026-10-28T18:42:51.054Z",
+      "updatedAt": "2026-10-28T18:42:51.054Z",
+      "tracks": [
+        {
+          "id": "121ddaa1-4ff3-49ac-bcbb-79cc87908511",
+          "playlistId": "2788a3fb-7b29-4abf-8e23-eeaa7bb3aad5",
+          "trackId": "47517482-f704-491b-bd5a-87289a0a5405",
+          "position": 0,
+          "addedAt": "2026-10-28T18:42:51.059Z",
+          "track": {
+            "id": "47517482-f704-491b-bd5a-87289a0a5405",
+            "title": "Midnight Drive Synthwave",
+            "artist": "Neon Horizon",
+            "album": "Cyber Dreams",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "4xDzrJKXOOY",
+            "durationSeconds": 310,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.926Z",
+            "updatedAt": "2026-10-28T18:42:50.926Z"
+          }
+        },
+        {
+          "id": "556fd08f-7ad9-4d7e-b1ba-2951bacc277a",
+          "playlistId": "2788a3fb-7b29-4abf-8e23-eeaa7bb3aad5",
+          "trackId": "76cba2f0-423b-4285-ab04-58c7bae29b89",
+          "position": 2,
+          "addedAt": "2026-10-28T18:42:51.069Z",
+          "track": {
+            "id": "76cba2f0-423b-4285-ab04-58c7bae29b89",
+            "title": "Electric Euphoria Workout",
+            "artist": "Pulse Architect",
+            "album": "High Cadence",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1534258936925-c58bed479fcb?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "b1kbLwvqugk",
+            "durationSeconds": 230,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.949Z",
+            "updatedAt": "2026-10-28T18:42:50.949Z"
+          }
+        },
+        {
+          "id": "e6b2233d-b09f-4198-9ded-0749437daa1e",
+          "playlistId": "2788a3fb-7b29-4abf-8e23-eeaa7bb3aad5",
+          "trackId": "e35f5117-73b4-42be-965e-58ee9961f334",
+          "position": 1,
+          "addedAt": "2026-10-28T18:42:51.065Z",
+          "track": {
+            "id": "e35f5117-73b4-42be-965e-58ee9961f334",
+            "title": "Deep Focus Ambient Flow",
+            "artist": "Cerebral Resonance",
+            "album": "Zero Distraction",
+            "thumbnailUrl": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&auto=format&fit=crop&q=80",
+            "provider": "youtube",
+            "providerVideoId": "DWcJFNfaw9c",
+            "durationSeconds": 280,
+            "isPublished": true,
+            "createdAt": "2026-10-28T18:42:50.932Z",
+            "updatedAt": "2026-10-28T18:42:50.932Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8b80f736-12a4-44de-977c-8e5147d44961",
+      "name": "My Favourite",
+      "description": null,
+      "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAJzHRj_LyldsPJn24kScZ93yNCBEeEANxDTzTr0EB4g&s=10",
+      "ownerId": "c1965822-12c8-4425-af89-1c3d463931ba",
+      "isPublic": true,
+      "isPublished": true,
+      "createdAt": "2026-10-28T19:18:01.748Z",
+      "updatedAt": "2026-10-28T19:18:01.748Z",
+      "tracks": [
+        {
+          "id": "01f95a5a-0fb1-47c5-a8d0-87da5ab019db",
+          "playlistId": "8b80f736-12a4-44de-977c-8e5147d44961",
+          "trackId": "459d4409-01e9-46fb-bd19-1aabb3fa9522",
+          "position": 1,
+          "addedAt": "2026-10-28T19:20:35.375Z",
+          "track": {
+            "id": "459d4409-01e9-46fb-bd19-1aabb3fa9522",
+            "title": "Khamosh Lab Hai Jhuki Hai Palkein",
+            "artist": "Mehdi Hasan sahab",
+            "album": null,
+            "thumbnailUrl": "https://img.youtube.com/vi/z3uynSFb1VM/hqdefault.jpg",
+            "provider": "youtube",
+            "providerVideoId": "z3uynSFb1VM",
+            "durationSeconds": 180,
+            "isPublished": true,
+            "createdAt": "2026-10-28T19:20:35.329Z",
+            "updatedAt": "2026-10-28T19:20:35.329Z"
+          }
+        },
+        {
+          "id": "7f523d22-fff7-4bb5-a7fb-41ff250973bb",
+          "playlistId": "8b80f736-12a4-44de-977c-8e5147d44961",
+          "trackId": "5a00ca72-9859-4e76-ad9a-503adf8b0c9a",
+          "position": 6,
+          "addedAt": "2026-10-28T19:33:36.039Z",
+          "track": {
+            "id": "5a00ca72-9859-4e76-ad9a-503adf8b0c9a",
+            "title": "Hothon Se Chhu Lo Tum",
+            "artist": "Jagjit Singh",
+            "album": null,
+            "thumbnailUrl": "https://img.youtube.com/vi/mBZBK09dlyk/hqdefault.jpg",
+            "provider": "youtube",
+            "providerVideoId": "mBZBK09dlyk",
+            "durationSeconds": 180,
+            "isPublished": true,
+            "createdAt": "2026-10-28T19:33:35.997Z",
+            "updatedAt": "2026-10-28T19:33:35.997Z"
+          }
+        },
+        {
+          "id": "eb59540d-3766-43ec-b248-4f00c2823dd2",
+          "playlistId": "8b80f736-12a4-44de-977c-8e5147d44961",
+          "trackId": "b27b0e58-08a1-4327-b8af-ecb0cca087b2",
+          "position": 8,
+          "addedAt": "2026-10-28T19:40:18.158Z",
+          "track": {
+            "id": "b27b0e58-08a1-4327-b8af-ecb0cca087b2",
+            "title": "Yeh Jo Halka Halka Suroor Hai",
+            "artist": "Nusrat Fateh Ali Khan",
+            "album": null,
+            "thumbnailUrl": "https://img.youtube.com/vi/D8l3fLJ1Klw/hqdefault.jpg",
+            "provider": "youtube",
+            "providerVideoId": "D8l3fLJ1Klw",
+            "durationSeconds": 180,
+            "isPublished": true,
+            "createdAt": "2026-10-28T19:40:18.121Z",
+            "updatedAt": "2026-10-28T19:40:18.121Z"
+          }
+        },
+        {
+          "id": "a4c982c8-f4c0-4ba1-9277-a25388583a78",
+          "playlistId": "8b80f736-12a4-44de-977c-8e5147d44961",
+          "trackId": "b2c1d04f-51a8-439f-aeac-2fd729f670e7",
+          "position": 4,
+          "addedAt": "2026-10-28T19:25:59.302Z",
+          "track": {
+            "id": "b2c1d04f-51a8-439f-aeac-2fd729f670e7",
+            "title": "Kal Chaudhvin Ki Raat Thi",
+            "artist": "Jagjit Singh",
+            "album": null,
+            "thumbnailUrl": "https://img.youtube.com/vi/dN1O1vQju2Q/hqdefault.jpg",
+            "provider": "youtube",
+            "providerVideoId": "dN1O1vQju2Q",
+            "durationSeconds": 180,
+            "isPublished": true,
+            "createdAt": "2026-10-28T19:25:59.285Z",
+            "updatedAt": "2026-10-28T19:25:59.285Z"
+          }
+        },
+        {
+          "id": "e67e8974-68e0-4fd5-aa0a-635f4074851e",
+          "playlistId": "8b80f736-12a4-44de-977c-8e5147d44961",
+          "trackId": "c8efb69c-b541-47ab-9960-50f6194dbd5b",
+          "position": 7,
+          "addedAt": "2026-10-28T19:37:12.367Z",
+          "track": {
+            "id": "c8efb69c-b541-47ab-9960-50f6194dbd5b",
+            "title": "Chupke Chupke Raat Din Aansoon Bahana Yaad Hai",
+            "artist": "Ghulam Ali Ghazals",
+            "album": null,
+            "thumbnailUrl": "https://img.youtube.com/vi/MWjaK_nW72E/hqdefault.jpg",
+            "provider": "youtube",
+            "providerVideoId": "MWjaK_nW72E",
+            "durationSeconds": 180,
+            "isPublished": true,
+            "createdAt": "2026-10-28T19:37:12.350Z",
+            "updatedAt": "2026-10-28T19:37:12.350Z"
+          }
+        },
+        {
+          "id": "9f487f04-6b52-4e11-a8aa-7b2544f791d3",
+          "playlistId": "8b80f736-12a4-44de-977c-8e5147d44961",
+          "trackId": "cb70de0e-c731-462d-939a-f348e3a33d81",
+          "position": 5,
+          "addedAt": "2026-10-28T19:29:18.205Z",
+          "track": {
+            "id": "cb70de0e-c731-462d-939a-f348e3a33d81",
+            "title": "Humein To Matlab Hai Sirf Tumse",
+            "artist": "Ankita",
+            "album": null,
+            "thumbnailUrl": "https://img.youtube.com/vi/iaUYQ7PZWBc/hqdefault.jpg",
+            "provider": "youtube",
+            "providerVideoId": "iaUYQ7PZWBc",
+            "durationSeconds": 180,
+            "isPublished": true,
+            "createdAt": "2026-10-28T19:29:18.168Z",
+            "updatedAt": "2026-10-28T19:29:18.168Z"
+          }
+        },
+        {
+          "id": "33d329ab-411f-40ce-a093-9bd1d7483b65",
+          "playlistId": "8b80f736-12a4-44de-977c-8e5147d44961",
+          "trackId": "dc786c23-5cb6-42dd-b5fc-ef1d1901af67",
+          "position": 3,
+          "addedAt": "2026-10-28T19:23:33.139Z",
+          "track": {
+            "id": "dc786c23-5cb6-42dd-b5fc-ef1d1901af67",
+            "title": "Ham ko kiske Gham ne mara",
+            "artist": "Ghulam Ali Ghazal",
+            "album": null,
+            "thumbnailUrl": "https://img.youtube.com/vi/LnVW-lYaRIs/hqdefault.jpg",
+            "provider": "youtube",
+            "providerVideoId": "LnVW-lYaRIs",
+            "durationSeconds": 180,
+            "isPublished": true,
+            "createdAt": "2026-10-28T19:23:33.106Z",
+            "updatedAt": "2026-10-28T19:23:33.106Z"
+          }
+        },
+        {
+          "id": "8c1224b1-c126-4107-b36f-f1824dd821ae",
+          "playlistId": "8b80f736-12a4-44de-977c-8e5147d44961",
+          "trackId": "fd974d48-cf28-4880-8b76-0a5b1f7e58e7",
+          "position": 2,
+          "addedAt": "2026-10-28T19:22:31.725Z",
+          "track": {
+            "id": "fd974d48-cf28-4880-8b76-0a5b1f7e58e7",
+            "title": "Ham Tere Sahar me",
+            "artist": "Ghulam Ali",
+            "album": null,
+            "thumbnailUrl": "https://img.youtube.com/vi/7yLBNUKqbLs/hqdefault.jpg",
+            "provider": "youtube",
+            "providerVideoId": "7yLBNUKqbLs",
+            "durationSeconds": 180,
+            "isPublished": true,
+            "createdAt": "2026-10-28T19:22:31.688Z",
+            "updatedAt": "2026-10-28T19:22:31.688Z"
+          }
+        },
+        {
+          "id": "d26983c8-b1a8-4251-a695-8d923191fb8b",
+          "playlistId": "8b80f736-12a4-44de-977c-8e5147d44961",
+          "trackId": "fdf3b06b-02a7-4db0-b51c-6dcd1968af46",
+          "position": 0,
+          "addedAt": "2026-10-28T19:19:13.448Z",
+          "track": {
+            "id": "fdf3b06b-02a7-4db0-b51c-6dcd1968af46",
+            "title": "Duniya Kisi Ke Pyar Mein",
+            "artist": "Ustad Mehdi Hassan",
+            "album": null,
+            "thumbnailUrl": "https://img.youtube.com/vi/mJYZjMgTn4A/hqdefault.jpg",
+            "provider": "youtube",
+            "providerVideoId": "mJYZjMgTn4A",
+            "durationSeconds": 180,
+            "isPublished": true,
+            "createdAt": "2026-10-28T19:19:13.408Z",
+            "updatedAt": "2026-10-28T19:19:13.408Z"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": "c1965822-12c8-4425-af89-1c3d463931ba",
+      "username": "admin",
+      "email": "admin@mymusiclounge.com",
+      "passwordHash": "$2a$10$Auez.b7ksQKMQp.GFuK30ekQ2JL9fcOk1udUd4L3/uGdCtGQnu0u6",
+      "role": "ADMIN",
+      "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "createdAt": "2026-10-28T18:42:50.839Z",
+      "updatedAt": "2026-10-28T18:42:50.839Z"
+    },
+    {
+      "id": "0f4dfe08-1f9c-4591-bdd5-63829a3adeed",
+      "username": "AlexLounge",
+      "email": "listener@mymusiclounge.com",
+      "passwordHash": "$2a$10$iPjDL7joPosYBg5o1WtOVORHXp.acg4sAb2B8lSiX9auughcyF/D.",
+      "role": "USER",
+      "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      "createdAt": "2026-10-28T18:42:50.917Z",
+      "updatedAt": "2026-10-28T18:42:50.917Z"
+    },
+    {
+      "id": "7f4e4f97-dea5-4ab4-95fb-72dc3038c066",
+      "username": "user_1793213041551",
+      "email": "user_1793213041551@test.com",
+      "passwordHash": "$2a$10$QZ1R3RsR47td8mAuj0KyOuIts9fjSojeFWOVghIjHTcrgrD0qMYSW",
+      "role": "USER",
+      "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=user_1793213041551",
+      "createdAt": "2026-10-28T18:44:01.728Z",
+      "updatedAt": "2026-10-28T18:44:01.728Z"
+    },
+    {
+      "id": "433b8d0b-23fb-4589-afc8-43dc6e31e1db",
+      "username": "user_1793213144088",
+      "email": "user_1793213144088@test.com",
+      "passwordHash": "$2a$10$x6eXgTPjXTbaK2ijvoZtfu1qwtOEM0R50BhH7c.HRlBX3ZRY90l.a",
+      "role": "USER",
+      "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=user_1793213144088",
+      "createdAt": "2026-10-28T18:45:44.234Z",
+      "updatedAt": "2026-10-28T18:45:44.234Z"
+    },
+    {
+      "id": "e63708a8-d43b-4623-9604-a414ad267352",
+      "username": "user_1793214339784",
+      "email": "user_1793214339784@test.com",
+      "passwordHash": "$2a$10$ISZdXpiAYrg3UDJ2ebRcUeA8ERfbAuiUeRNySurD/KGMuInW3dSdq",
+      "role": "USER",
+      "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=user_1793214339784",
+      "createdAt": "2026-10-28T19:05:39.931Z",
+      "updatedAt": "2026-10-28T19:05:39.931Z"
+    },
+    {
+      "id": "800adc6b-6a9b-4f60-aa42-e18fc2bf8358",
+      "username": "Raushan",
+      "email": "raushan113925@gmail.com",
+      "passwordHash": "$2a$10$vFY9yDtQr8sxuNbmzkoTm.5uUCWQY3jG2onC3IRNyUX1oQkATbDEi",
+      "role": "USER",
+      "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=Raushan",
+      "createdAt": "2026-10-28T19:49:08.143Z",
+      "updatedAt": "2026-10-28T19:49:08.143Z"
+    }
+  ]
+}
