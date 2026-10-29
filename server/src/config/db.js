@@ -9,16 +9,17 @@ async function connectDB() {
 
   const uri = config.mongodbUri;
   const maskedUri = uri.replace(/\/\/[^@]+@/, '//***:***@');
+  const isAtlas = uri.startsWith('mongodb+srv://') || uri.includes('mongodb.net');
+  const timeoutMs = isAtlas ? 10000 : 2500;
 
   try {
-    console.log(`[MongoDB] Connecting to MongoDB at ${maskedUri}...`);
-    // Connect with a 2.5s timeout so startup doesn't hang if local mongod is not running
+    console.log(`[MongoDB] Connecting to MongoDB ${isAtlas ? 'Atlas Cluster' : 'Server'} at ${maskedUri}...`);
     await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 2500,
+      serverSelectionTimeoutMS: timeoutMs,
     });
     isConnected = true;
     isMemoryFallback = false;
-    console.log(`[MongoDB] Successfully connected to MongoDB database.`);
+    console.log(`[MongoDB] Successfully connected to MongoDB database (${mongoose.connection.name || 'mymusic_lounge'}).`);
   } catch (err) {
     isConnected = false;
     isMemoryFallback = true;
