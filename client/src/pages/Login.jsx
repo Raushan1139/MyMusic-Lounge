@@ -137,7 +137,7 @@ export default function Login() {
         <div
           style={{
             marginTop: '24px',
-            padding: '12px 14px',
+            padding: '14px',
             borderRadius: 'var(--radius-sm)',
             background: 'rgba(255, 255, 255, 0.04)',
             border: '1px solid var(--border-subtle)',
@@ -146,8 +146,26 @@ export default function Login() {
             lineHeight: 1.5,
           }}
         >
-          <div style={{ color: '#C4B5FD', fontWeight: '600', marginBottom: '2px' }}>
-            Demo Owner Admin Credentials:
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+            <span style={{ color: '#C4B5FD', fontWeight: '700' }}>Demo Admin Credentials:</span>
+            <button
+              type="button"
+              onClick={() => {
+                setIdentifier('admin@mymusiclounge.com');
+                setPassword('AdminLounge2026!');
+              }}
+              style={{
+                background: 'rgba(139, 92, 246, 0.2)',
+                border: '1px solid rgba(139, 92, 246, 0.4)',
+                color: '#C4B5FD',
+                borderRadius: '4px',
+                padding: '2px 8px',
+                fontSize: '11px',
+                cursor: 'pointer',
+              }}
+            >
+              Fill Credentials
+            </button>
           </div>
           <div>Identifier: <code>admin@mymusiclounge.com</code></div>
           <div>Password: <code>AdminLounge2026!</code></div>

@@ -86,9 +86,32 @@ exports.login = async (req, res, next) => {
     const { identifier, password } = req.body;
     const cleanId = identifier.trim().toLowerCase();
 
-    const user = await User.findOne({
-      $or: [{ email: cleanId }, { username: identifier.trim() }],
+    // Find user by case-insensitive email or username
+    let user = await User.findOne({
+      $or: [
+        { email: cleanId },
+        { email: { $regex: `^${cleanId}$`, $options: 'i' } },
+        { username: { $regex: `^${identifier.trim()}$`, $options: 'i' } },
+        { username: identifier.trim() },
+      ],
     });
+
+    // Failsafe: If attempting to login as configured admin and no user found, auto-initialize
+    if (!user) {
+      const defaultAdminEmail = (config.admin.email || 'admin@mymusiclounge.com').toLowerCase();
+      const defaultAdminUsername = (config.admin.username || 'admin').toLowerCase();
+      if (cleanId === defaultAdminEmail || cleanId === defaultAdminUsername) {
+        const passwordHash = await bcrypt.hash(config.admin.password || 'AdminLounge2026!', 10);
+        user = await User.create({
+          username: config.admin.username || 'admin',
+          email: defaultAdminEmail,
+          passwordHash,
+          role: 'ADMIN',
+          avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+        });
+        console.log('[Auth] Initialized administrator profile during login attempt.');
+      }
+    }
 
     if (!user) {
       return res.status(401).json({

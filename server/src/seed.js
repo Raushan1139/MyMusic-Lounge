@@ -260,16 +260,19 @@ async function seed() {
   }
 
   console.log('--- MongoDB Database Seed Complete! ---');
-  if (mongoose.connection && mongoose.connection.readyState === 1) {
-    await mongoose.disconnect();
-  }
 }
 
 if (require.main === module) {
-  seed().catch((err) => {
-    console.error('Seed error:', err);
-    process.exit(1);
-  });
+  seed()
+    .then(async () => {
+      if (mongoose.connection && mongoose.connection.readyState === 1) {
+        await mongoose.disconnect();
+      }
+    })
+    .catch((err) => {
+      console.error('Seed error:', err);
+      process.exit(1);
+    });
 }
 
 module.exports = seed;

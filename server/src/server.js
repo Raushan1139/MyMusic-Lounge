@@ -3,6 +3,7 @@ const { Server } = require('socket.io');
 const app = require('./app');
 const config = require('./config');
 const { connectDB, mongoose } = require('./config/db');
+const seed = require('./seed');
 const stationService = require('./services/stationService');
 const initSockets = require('./sockets');
 
@@ -30,7 +31,10 @@ async function startServer() {
     // 1. Connect to MongoDB database (with graceful zero-config memory fallback)
     await connectDB();
 
-    // 2. Initialize station state
+    // 2. Ensure initial administrator, catalog songs, and default settings exist
+    await seed();
+
+    // 3. Initialize station state
     await stationService.init();
 
     server.listen(config.port, () => {
