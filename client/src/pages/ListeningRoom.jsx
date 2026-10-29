@@ -1,5 +1,4 @@
-import React from 'react';
-import YouTubeBridge from '../components/YouTubeBridge';
+import React, { useEffect } from 'react';
 import Visualizer from '../components/Visualizer';
 import QueuePanel from '../components/QueuePanel';
 import ChatPanel from '../components/ChatPanel';
@@ -16,6 +15,7 @@ import {
   Info,
   Shield,
   Volume2,
+  Tv,
 } from 'lucide-react';
 
 export default function ListeningRoom() {
@@ -27,9 +27,17 @@ export default function ListeningRoom() {
     playbackMode,
     isAutoplayBlocked,
     unlockAudio,
+    isVideoOpen,
+    setIsVideoOpen,
+    toggleVideoOpen,
   } = useMusic();
   const { listenersCount } = useSocket();
   const { isAdmin } = useAuth();
+
+  // Automatically pop out video stream when visiting Listening Room
+  useEffect(() => {
+    setIsVideoOpen(true);
+  }, []);
 
   const currentTrack = stationState.currentTrack;
   const isStationMode = playbackMode === 'station';
@@ -118,9 +126,82 @@ export default function ListeningRoom() {
       >
         {/* Left: Video Player & Audio Stream info */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {/* Official YouTube Embed */}
-          <div className="glass-panel" style={{ padding: '16px', background: '#000', overflow: 'hidden' }}>
-            <YouTubeBridge isExpanded={true} />
+          {/* Lounge Broadcast Visual Stage */}
+          <div
+            className="glass-panel"
+            style={{
+              position: 'relative',
+              height: '240px',
+              borderRadius: 'var(--radius-lg)',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              padding: '24px',
+              background: '#0B0D13',
+            }}
+          >
+            {/* Background artwork with blur */}
+            {currentTrack?.thumbnailUrl && (
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundImage: `url(${currentTrack.thumbnailUrl})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  opacity: 0.35,
+                  filter: 'blur(10px) brightness(0.7)',
+                  transform: 'scale(1.1)',
+                }}
+              />
+            )}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(to top, rgba(11, 13, 19, 0.95) 0%, rgba(11, 13, 19, 0.3) 100%)',
+              }}
+            />
+
+            {/* Stage content */}
+            <div style={{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <img
+                  src={currentTrack?.thumbnailUrl || 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=300&auto=format&fit=crop&q=80'}
+                  alt={currentTrack?.title}
+                  style={{
+                    width: '68px',
+                    height: '68px',
+                    borderRadius: 'var(--radius-md)',
+                    objectFit: 'cover',
+                    boxShadow: 'var(--shadow-md)',
+                    border: '1px solid var(--border-glass)',
+                  }}
+                />
+                <div>
+                  <div style={{ fontSize: '11px', fontWeight: '700', color: '#A78BFA', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Live Studio Feed
+                  </div>
+                  <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#FFF', marginTop: '2px' }}>
+                    {currentTrack?.title || 'Waiting for track...'}
+                  </h3>
+                  <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+                    {currentTrack?.artist || 'Lounge Radio'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Video stream toggle pill */}
+              <button
+                onClick={toggleVideoOpen}
+                className={isVideoOpen ? 'btn-primary' : 'btn-secondary'}
+                style={{ fontSize: '12px', padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '8px' }}
+              >
+                <Tv size={15} />
+                <span>{isVideoOpen ? 'Hide Video Window' : 'Watch YouTube Video'}</span>
+              </button>
+            </div>
           </div>
 
           {/* Current Track Details Card */}

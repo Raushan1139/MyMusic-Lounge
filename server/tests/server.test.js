@@ -1,8 +1,9 @@
-const { describe, it, before } = require('node:test');
+const { describe, it, before, after } = require('node:test');
 const assert = require('node:assert');
 const request = require('supertest');
 const app = require('../src/app');
 const seed = require('../src/seed');
+const stationService = require('../src/services/stationService');
 const { extractYouTubeVideoId, normalizeYouTubeTrack } = require('../src/utils/youtube');
 
 describe('MyMusic Lounge MongoDB Server Tests', () => {
@@ -156,5 +157,9 @@ describe('MyMusic Lounge MongoDB Server Tests', () => {
       assert.strictEqual(res.body.success, true);
       assert.strictEqual(res.body.settings.site_name, 'MyMusic Lounge');
     });
+  });
+
+  after(() => {
+    stationService.stopTicker?.();
   });
 });

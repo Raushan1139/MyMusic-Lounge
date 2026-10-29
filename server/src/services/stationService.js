@@ -76,16 +76,50 @@ class StationService {
       this.queue = resolvedQueue;
       this.initialized = true;
 
+      this.startTicker();
       console.log(`[StationService] Station initialized: "${this.name}" | State: ${this.playbackState}`);
     } catch (err) {
       console.error('[StationService] Error initializing station:', err.message);
     }
   }
 
+  startTicker() {
+    if (this.tickerInterval) clearInterval(this.tickerInterval);
+    this.tickerInterval = setInterval(async () => {
+      try {
+        if (this.playbackState === 'PLAYING' && this.currentTrack && this.startedAt) {
+          const duration = this.currentTrack.durationSeconds || 240;
+          const elapsed = (Date.now() - this.startedAt) / 1000;
+          if (this.positionSeconds + elapsed >= duration) {
+            console.log(`[StationService] Track "${this.currentTrack.title}" completed (${duration}s), auto-advancing...`);
+            await this.nextTrack();
+          }
+        }
+      } catch (err) {
+        console.warn('[StationService] Ticker error:', err.message);
+      }
+    }, 4000);
+    if (this.tickerInterval && typeof this.tickerInterval.unref === 'function') {
+      this.tickerInterval.unref();
+    }
+  }
+
+  stopTicker() {
+    if (this.tickerInterval) {
+      clearInterval(this.tickerInterval);
+      this.tickerInterval = null;
+    }
+  }
+
   getCurrentPosition() {
     if (this.playbackState === 'PLAYING' && this.startedAt) {
       const elapsed = (Date.now() - this.startedAt) / 1000;
-      return Math.max(0, this.positionSeconds + elapsed);
+      const totalPos = this.positionSeconds + elapsed;
+      const duration = this.currentTrack?.durationSeconds || 240;
+      if (duration > 0 && totalPos >= duration) {
+        return Math.floor(totalPos % duration);
+      }
+      return Math.max(0, totalPos);
     }
     return this.positionSeconds;
   }
@@ -213,8 +247,22 @@ class StationService {
         this.broadcastState('station:playback-updated');
       }
     } else {
-      this.playbackState = 'STOPPED';
-      this.broadcastState('station:playback-updated');
+      // Continuous lounge radio: play next published catalog track
+      try {
+        const allTracks = await Track.find({ isPublished: true });
+        if (allTracks.length > 0) {
+          const currentIdStr = this.currentTrack ? (this.currentTrack.id || this.currentTrack._id?.toString()) : null;
+          const currentIdx = allTracks.findIndex(t => (t.id || t._id?.toString()) === currentIdStr);
+          const nextIdx = (currentIdx + 1) % allTracks.length;
+          await this.setCurrentTrack(allTracks[nextIdx].id || allTracks[nextIdx]._id.toString());
+        } else {
+          this.playbackState = 'STOPPED';
+          this.broadcastState('station:playback-updated');
+        }
+      } catch (err) {
+        this.playbackState = 'STOPPED';
+        this.broadcastState('station:playback-updated');
+      }
     }
 
     this.broadcastState('station:queue-updated');

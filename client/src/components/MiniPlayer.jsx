@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useMusic } from '../context/MusicContext';
 import { useAuth } from '../context/AuthContext';
-import YouTubeBridge from './YouTubeBridge';
 import VolumeControl from './VolumeControl';
 import {
   Play,
@@ -28,10 +27,11 @@ export default function MiniPlayer({ onOpenPlaylistModal }) {
     isFavorite,
     isAutoplayBlocked,
     unlockAudio,
+    isVideoOpen,
+    toggleVideoOpen,
   } = useMusic();
 
   const { isAuthenticated, user } = useAuth();
-  const [showVideo, setShowVideo] = useState(false);
 
   if (!currentTrack) return null;
 
@@ -39,62 +39,6 @@ export default function MiniPlayer({ onOpenPlaylistModal }) {
 
   return (
     <>
-      {/* Floating or Docked Video Modal when user wants to see the visual video stream */}
-      {showVideo && (
-        <div
-          style={{
-            position: 'fixed',
-            bottom: 'calc(var(--mini-player-height) + 16px)',
-            right: '24px',
-            zIndex: 100,
-            width: '360px',
-            background: 'var(--bg-surface-elevated)',
-            border: '1px solid var(--border-glass)',
-            borderRadius: 'var(--radius-lg)',
-            padding: '12px',
-            boxShadow: 'var(--shadow-lg)',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: '10px',
-              padding: '0 4px',
-            }}
-          >
-            <span style={{ fontSize: '13px', fontWeight: '600', color: '#FFF' }}>
-              Official YouTube Stream
-            </span>
-            <button
-              onClick={() => setShowVideo(false)}
-              className="btn-icon"
-              style={{ width: '28px', height: '28px' }}
-              title="Minimize video player"
-            >
-              <Minimize2 size={14} />
-            </button>
-          </div>
-          <YouTubeBridge isExpanded={true} />
-        </div>
-      )}
-
-      {/* Hidden/Persistent YouTube Audio Bridge when minimized */}
-      {!showVideo && (
-        <div
-          style={{
-            position: 'fixed',
-            bottom: -9999,
-            left: -9999,
-            opacity: 0.01,
-            pointerEvents: 'none',
-          }}
-        >
-          <YouTubeBridge isExpanded={false} />
-        </div>
-      )}
-
       {/* Mini Player Bar */}
       <footer
         style={{
@@ -248,12 +192,12 @@ export default function MiniPlayer({ onOpenPlaylistModal }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             {/* Toggle Video Stream View */}
             <button
-              onClick={() => setShowVideo(!showVideo)}
-              className={`btn-icon ${showVideo ? 'active' : ''}`}
+              onClick={toggleVideoOpen}
+              className={`btn-icon ${isVideoOpen ? 'active' : ''}`}
               style={{ width: '38px', height: '38px' }}
-              title={showVideo ? 'Hide video window' : 'Show YouTube video window'}
+              title={isVideoOpen ? 'Hide video window' : 'Show YouTube video window'}
             >
-              {showVideo ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+              {isVideoOpen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
             </button>
 
             {/* Volume slider */}

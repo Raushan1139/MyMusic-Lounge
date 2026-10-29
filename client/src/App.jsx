@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import MiniPlayer from './components/MiniPlayer';
+import GlobalPlayer from './components/GlobalPlayer';
 import SelectPlaylistModal from './components/SelectPlaylistModal';
 import Home from './pages/Home';
 import Discover from './pages/Discover';
@@ -63,6 +64,9 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
+
+      {/* Persistent YouTube Singleton Audio/Video Player */}
+      <GlobalPlayer />
 
       {/* Persistent Mini Player */}
       <MiniPlayer onOpenPlaylistModal={handleOpenPlaylistModal} />

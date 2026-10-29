@@ -50,6 +50,33 @@ export function MusicProvider({ children }) {
   // YouTube Player Ref
   const playerRef = useRef(null);
 
+  // Video Window visibility (PiP drawer)
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const toggleVideoOpen = () => setIsVideoOpen((prev) => !prev);
+
+  // Automatic Audio Unlock on first user gesture anywhere
+  useEffect(() => {
+    const handleFirstGesture = () => {
+      if (playerRef.current && typeof playerRef.current.unMute === 'function') {
+        try {
+          playerRef.current.unMute();
+          playerRef.current.setVolume(volume);
+          if (isPlaying) {
+            playerRef.current.playVideo();
+          }
+          setIsAutoplayBlocked(false);
+        } catch {}
+      }
+    };
+
+    window.addEventListener('click', handleFirstGesture, { capture: true, once: true });
+    window.addEventListener('keydown', handleFirstGesture, { capture: true, once: true });
+    return () => {
+      window.removeEventListener('click', handleFirstGesture, { capture: true });
+      window.removeEventListener('keydown', handleFirstGesture, { capture: true });
+    };
+  }, [volume, isPlaying]);
+
   // Save volume preference
   useEffect(() => {
     localStorage.setItem('lounge_volume', volume.toString());
@@ -134,18 +161,20 @@ export function MusicProvider({ children }) {
 
   // Toggle Play / Pause
   const togglePlay = async () => {
+    setIsAutoplayBlocked(false);
     if (playbackMode === 'station') {
       if (user?.role === 'ADMIN') {
         const nextAction = isPlaying ? 'pause' : 'play';
         await api.station.control(nextAction);
       } else {
         // Visitor muting/unmuting or unlocking station audio
-        if (playerRef.current) {
+        if (playerRef.current && typeof playerRef.current.playVideo === 'function') {
           if (isPlaying) {
-            // Visitors can locally pause their audio if desired
             playerRef.current.pauseVideo();
             setStationState((s) => ({ ...s, playbackState: 'PAUSED' }));
           } else {
+            playerRef.current.unMute();
+            playerRef.current.setVolume(volume);
             playerRef.current.playVideo();
             setStationState((s) => ({ ...s, playbackState: 'PLAYING' }));
           }
@@ -155,10 +184,16 @@ export function MusicProvider({ children }) {
       // Personal mode
       if (personalPlaybackState === 'PLAYING') {
         setPersonalPlaybackState('PAUSED');
-        if (playerRef.current) playerRef.current.pauseVideo();
+        if (playerRef.current && typeof playerRef.current.pauseVideo === 'function') {
+          playerRef.current.pauseVideo();
+        }
       } else {
         setPersonalPlaybackState('PLAYING');
-        if (playerRef.current) playerRef.current.playVideo();
+        if (playerRef.current && typeof playerRef.current.playVideo === 'function') {
+          playerRef.current.unMute();
+          playerRef.current.setVolume(volume);
+          playerRef.current.playVideo();
+        }
       }
     }
   };
@@ -169,6 +204,22 @@ export function MusicProvider({ children }) {
     setPersonalTrack(track);
     setPersonalPlaybackState('PLAYING');
     setPersonalPositionSeconds(0);
+    setIsAutoplayBlocked(false);
+
+    // Direct synchronous command inside user click gesture prevents browser autoplay block
+    if (playerRef.current && typeof playerRef.current.loadVideoById === 'function') {
+      try {
+        playerRef.current.unMute();
+        playerRef.current.setVolume(volume);
+        playerRef.current.loadVideoById({
+          videoId: track.providerVideoId,
+          startSeconds: 0,
+        });
+        playerRef.current.playVideo();
+      } catch (err) {
+        console.warn('[MusicContext] Direct play error:', err);
+      }
+    }
 
     // Record history if authenticated
     if (isAuthenticated && track.id) {
@@ -180,14 +231,35 @@ export function MusicProvider({ children }) {
   const switchToStation = () => {
     setPlaybackMode('station');
     setIsAutoplayBlocked(false);
+
+    if (stationState.currentTrack && playerRef.current && typeof playerRef.current.loadVideoById === 'function') {
+      try {
+        const duration = stationState.currentTrack.durationSeconds || 240;
+        const startSeconds = Math.max(0, Math.min(stationState.positionSeconds || 0, Math.max(0, duration - 5)));
+        playerRef.current.unMute();
+        playerRef.current.setVolume(volume);
+        playerRef.current.loadVideoById({
+          videoId: stationState.currentTrack.providerVideoId,
+          startSeconds,
+        });
+        playerRef.current.playVideo();
+      } catch (err) {
+        console.warn('[MusicContext] Switch to station error:', err);
+      }
+    }
   };
 
   // Unlock Audio Button for Browser Policy
   const unlockAudio = () => {
     setIsAutoplayBlocked(false);
-    if (playerRef.current) {
-      playerRef.current.unMute();
-      playerRef.current.playVideo();
+    if (playerRef.current && typeof playerRef.current.unMute === 'function') {
+      try {
+        playerRef.current.unMute();
+        playerRef.current.setVolume(volume);
+        playerRef.current.playVideo();
+      } catch (err) {
+        console.warn('[MusicContext] unlockAudio error:', err);
+      }
     }
   };
 
@@ -277,6 +349,9 @@ export function MusicProvider({ children }) {
     toggleFavorite,
     isFavorite,
     playerRef,
+    isVideoOpen,
+    setIsVideoOpen,
+    toggleVideoOpen,
   };
 
   return <MusicContext.Provider value={value}>{children}</MusicContext.Provider>;
