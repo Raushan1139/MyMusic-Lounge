@@ -72,7 +72,21 @@ app.use('/api/me/history', historyRoutes);
 app.use('/api/station', stationRoutes);
 app.use('/api/settings', settingsRoutes);
 
-// 404 Not Found Handler
+// Static client build serving (SPA support for unified port 5000)
+const path = require('path');
+const fs = require('fs');
+const clientDistPath = path.resolve(__dirname, '../../client/dist');
+if (fs.existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
+  app.get('*', (req, res, next) => {
+    if (req.originalUrl.startsWith('/api') || req.originalUrl.startsWith('/socket.io')) {
+      return next();
+    }
+    res.sendFile(path.join(clientDistPath, 'index.html'));
+  });
+}
+
+// 404 Not Found Handler for unmatched API routes
 app.use((req, res) => {
   res.status(404).json({
     success: false,

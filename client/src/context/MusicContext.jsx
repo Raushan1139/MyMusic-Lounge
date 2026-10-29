@@ -34,6 +34,13 @@ export function MusicProvider({ children }) {
   const [isShuffle, setIsShuffle] = useState(false);
   const [isRepeat, setIsRepeat] = useState(false);
 
+  // Active track based on playback mode
+  const currentTrack = playbackMode === 'station' ? stationState.currentTrack : personalTrack;
+  const isPlaying =
+    playbackMode === 'station'
+      ? stationState.playbackState === 'PLAYING'
+      : personalPlaybackState === 'PLAYING';
+
   // Audio Controls & Volume
   const [volume, setVolume] = useState(() => {
     const saved = localStorage.getItem('lounge_volume');
@@ -151,13 +158,6 @@ export function MusicProvider({ children }) {
       socket.off('station:playback-updated', handlePlaybackUpdated);
     };
   }, [socket, playbackMode]);
-
-  // Active track based on playback mode
-  const currentTrack = playbackMode === 'station' ? stationState.currentTrack : personalTrack;
-  const isPlaying =
-    playbackMode === 'station'
-      ? stationState.playbackState === 'PLAYING'
-      : personalPlaybackState === 'PLAYING';
 
   // Toggle Play / Pause
   const togglePlay = async () => {
