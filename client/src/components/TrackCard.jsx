@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useMusic } from '../context/MusicContext';
 import { useAuth } from '../context/AuthContext';
-import { Play, Heart, ListPlus, Radio, Plus } from 'lucide-react';
+import { Play, Heart, ListPlus, Radio } from 'lucide-react';
 
 function formatDuration(seconds) {
   if (!seconds || seconds <= 0) return '0:00';
@@ -11,11 +11,50 @@ function formatDuration(seconds) {
 }
 
 export default function TrackCard({ track, onOpenPlaylistModal, onAddToStationQueue }) {
-  const { playPersonalTrack, toggleFavorite, isFavorite, currentTrack, isPlaying } = useMusic();
+  const { playPersonalTrack, toggleFavorite, isFavorite, currentTrack, isPlaying, playerRef } = useMusic();
   const { isAuthenticated, isAdmin } = useAuth();
+
+  const hoverTimerRef = useRef(null);
+  const preloadedRef = useRef(false);
 
   const isCurrent = currentTrack?.id === track.id;
   const isFav = isFavorite(track.id);
+
+  // ── PRE-BUFFER on hover ─────────────────────────────────────────────────
+  // When user hovers the play button for 200ms, silently call cueVideoById
+  // so YouTube starts pre-buffering segments before the click lands.
+  // This means by click time the video is already partially buffered → instant start.
+  const handleMouseEnter = () => {
+    if (isCurrent) return; // already playing this track, skip
+    hoverTimerRef.current = setTimeout(() => {
+      if (
+        playerRef.current &&
+        typeof playerRef.current.cueVideoById === 'function' &&
+        !preloadedRef.current
+      ) {
+        try {
+          playerRef.current.cueVideoById({ videoId: track.providerVideoId, startSeconds: 0 });
+          preloadedRef.current = true;
+        } catch {
+          // ignore — cue is best-effort
+        }
+      }
+    }, 180); // 180ms hover → start pre-buffering
+  };
+
+  const handleMouseLeave = () => {
+    clearTimeout(hoverTimerRef.current);
+    preloadedRef.current = false;
+  };
+
+  // ── PLAY on click ────────────────────────────────────────────────────────
+  // playPersonalTrack calls loadVideoById synchronously inside the user-gesture
+  // event, satisfying browser autoplay policy and starting playback immediately.
+  const handlePlay = () => {
+    clearTimeout(hoverTimerRef.current);
+    preloadedRef.current = false;
+    playPersonalTrack(track);
+  };
 
   return (
     <div
@@ -48,20 +87,25 @@ export default function TrackCard({ track, onOpenPlaylistModal, onAddToStationQu
           }
           alt={track.title}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          loading="eager"
         />
         <button
-          onClick={() => playPersonalTrack(track)}
+          onClick={handlePlay}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'rgba(0, 0, 0, 0.45)',
+            background: isCurrent && isPlaying
+              ? 'rgba(139, 92, 246, 0.55)'
+              : 'rgba(0, 0, 0, 0.45)',
             border: 'none',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: '#FFF',
             cursor: 'pointer',
-            transition: 'opacity var(--transition-fast)',
+            transition: 'background var(--transition-fast)',
           }}
           title="Play in Personal Mode"
         >
@@ -69,8 +113,13 @@ export default function TrackCard({ track, onOpenPlaylistModal, onAddToStationQu
         </button>
       </div>
 
-      {/* Song info */}
-      <div style={{ flex: 1, minWidth: 0 }}>
+      {/* Song info — clicking title also plays */}
+      <div
+        style={{ flex: 1, minWidth: 0, cursor: 'pointer' }}
+        onClick={handlePlay}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <div
           style={{
             fontSize: '14px',

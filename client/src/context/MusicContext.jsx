@@ -206,22 +206,30 @@ export function MusicProvider({ children }) {
     setPersonalPositionSeconds(0);
     setIsAutoplayBlocked(false);
 
-    // Direct synchronous command inside user click gesture prevents browser autoplay block
+    // ── FAST PATH ─────────────────────────────────────────────────────
+    // Call loadVideoById IMMEDIATELY inside the user-gesture handler so
+    // the browser autoplay policy is satisfied and buffering starts NOW,
+    // before any React re-render cycle.
+    // We also stamp loadedVideoIdRef so GlobalPlayer's useEffect (which
+    // fires after the re-render) sees the video is already loading and
+    // skips the redundant second loadVideoById call.
     if (playerRef.current && typeof playerRef.current.loadVideoById === 'function') {
       try {
+        // Mark as already loading so GlobalPlayer useEffect skips duplicate
+        if (playerRef.current._loadedVideoIdRef !== undefined) {
+          playerRef.current._loadedVideoIdRef.current = track.providerVideoId;
+        }
         playerRef.current.unMute();
         playerRef.current.setVolume(volume);
-        playerRef.current.loadVideoById({
-          videoId: track.providerVideoId,
-          startSeconds: 0,
-        });
+        playerRef.current.loadVideoById({ videoId: track.providerVideoId, startSeconds: 0 });
+        // loadVideoById auto-plays; explicit playVideo() ensures it even on some browsers
         playerRef.current.playVideo();
       } catch (err) {
         console.warn('[MusicContext] Direct play error:', err);
       }
     }
 
-    // Record history if authenticated
+    // Record history if authenticated (non-blocking)
     if (isAuthenticated && track.id) {
       api.history.record(track.id).catch(() => {});
     }

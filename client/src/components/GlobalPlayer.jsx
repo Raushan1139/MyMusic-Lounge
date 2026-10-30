@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useMusic } from '../context/MusicContext';
 import { Volume2, AlertCircle, Play, Minimize2, Maximize2, Radio } from 'lucide-react';
 
@@ -28,6 +28,19 @@ export default function GlobalPlayer() {
   const [playerReady, setPlayerReady] = useState(false);
   const [embedError, setEmbedError] = useState(null);
   const [ytApiLoaded, setYtApiLoaded] = useState(false);
+
+  // Track the video ID currently loaded/loading in the player to avoid double-loads
+  const loadedVideoIdRef = useRef(null);
+  // Track the video ID we WANT to play — set immediately on click for fast response
+  const pendingVideoIdRef = useRef(null);
+
+  // Expose loadedVideoIdRef on playerRef so MusicContext.playPersonalTrack can
+  // stamp the id synchronously, preventing the useEffect below from double-loading.
+  useEffect(() => {
+    if (playerRef) {
+      playerRef._loadedVideoIdRef = loadedVideoIdRef;
+    }
+  });
 
   // 1. Load official YouTube IFrame API script
   useEffect(() => {
@@ -61,6 +74,10 @@ export default function GlobalPlayer() {
     setEmbedError(null);
 
     if (!playerRef.current) {
+      // Record we're loading this video so playPersonalTrack doesn't double-load
+      loadedVideoIdRef.current = videoId;
+      pendingVideoIdRef.current = videoId;
+
       // Create singleton player instance
       playerRef.current = new window.YT.Player('youtube-bridge-iframe-target', {
         height: '100%',
@@ -92,12 +109,19 @@ export default function GlobalPlayer() {
               event.target.seekTo(safePos, true);
             }
 
-            // Attempt initial play
-            try {
-              event.target.playVideo();
-            } catch (err) {
-              console.warn('[GlobalPlayer] Autoplay catch:', err);
-              setIsAutoplayBlocked(true);
+            // If user clicked a different song while player was initializing, load it now
+            const wantedId = pendingVideoIdRef.current;
+            if (wantedId && wantedId !== videoId) {
+              loadedVideoIdRef.current = wantedId;
+              event.target.loadVideoById({ videoId: wantedId, startSeconds: 0 });
+            } else {
+              // Attempt initial play
+              try {
+                event.target.playVideo();
+              } catch (err) {
+                console.warn('[GlobalPlayer] Autoplay catch:', err);
+                setIsAutoplayBlocked(true);
+              }
             }
 
             // Verify if browser permitted sound or paused it
@@ -105,7 +129,6 @@ export default function GlobalPlayer() {
               if (event.target && typeof event.target.getPlayerState === 'function') {
                 const state = event.target.getPlayerState();
                 if (state !== 1 && isPlaying) {
-                  // Not playing -> browser autoplay restriction active
                   setIsAutoplayBlocked(true);
                 }
               }
@@ -138,26 +161,26 @@ export default function GlobalPlayer() {
         },
       });
     } else {
-      // Player already exists: load new video
-      try {
-        const currentLoaded = playerRef.current.getVideoData?.()?.video_id;
-        if (currentLoaded !== videoId) {
+      // Player exists — only load if this video isn't already loaded/loading
+      // (avoids double-load when playPersonalTrack already called loadVideoById directly)
+      if (loadedVideoIdRef.current !== videoId) {
+        loadedVideoIdRef.current = videoId;
+        pendingVideoIdRef.current = videoId;
+
+        try {
           const duration = currentTrack.durationSeconds || 240;
           const startSeconds =
             playbackMode === 'station'
               ? Math.max(0, Math.min(stationState.positionSeconds || 0, Math.max(0, duration - 5)))
               : 0;
 
-          playerRef.current.loadVideoById({
-            videoId,
-            startSeconds,
-          });
+          playerRef.current.loadVideoById({ videoId, startSeconds });
           playerRef.current.unMute();
           playerRef.current.setVolume(volume);
-          playerRef.current.playVideo();
+          // playVideo is called automatically by loadVideoById
+        } catch (err) {
+          console.warn('[GlobalPlayer] Error loading video into existing player:', err);
         }
-      } catch (err) {
-        console.warn('[GlobalPlayer] Error loading video into existing player:', err);
       }
     }
   }, [ytApiLoaded, currentTrack?.providerVideoId]);
